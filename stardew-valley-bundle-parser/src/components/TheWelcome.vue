@@ -1,8 +1,5 @@
 <script setup>
-import * as objects from './refs/Objects.json'
-//JSON.parse
-console.log(objects.default["680"].DisplayName)
-console.log(objects.default["VolcanoGoldNode"])
+
 </script>
 
 <template>
