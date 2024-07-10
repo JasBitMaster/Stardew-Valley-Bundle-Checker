@@ -1,12 +1,16 @@
 <script setup>
+  import { parseSave } from "../scripts/dataParser.js"
 
+  function loadFile(evt) {
+    let saveFile = evt.target.files[0]
+    console.log(saveFile)
+    parseSave(saveFile)
+  }
 </script>
 
 <template>
+  <input @change="loadFile" type="file" id="file" name="file"/>
   <WelcomeItem>
-    <template #icon>
-      <DocumentationIcon />
-    </template>
     <template #heading>Documentation</template>
 
     Vue’s
@@ -16,7 +20,7 @@
 
   <WelcomeItem>
     <template #heading>Tooling</template>
-
+    
     This project is served and bundled with
     <a href="https://vitejs.dev/guide/features.html" target="_blank" rel="noopener">Vite</a>. The
     recommended IDE setup is
