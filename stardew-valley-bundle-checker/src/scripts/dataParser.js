@@ -7,6 +7,11 @@ import * as strings_1_6 from './JSON/1_6_Strings.json'
 let rooms = []
 const reader = new FileReader()
 
+/* Sends the room data */
+export function getRooms() {
+    return rooms;
+}
+
 /* Loads a save file from input load event */
 export function loadFile(evt) {
     let saveFile = evt.target.files[0]
