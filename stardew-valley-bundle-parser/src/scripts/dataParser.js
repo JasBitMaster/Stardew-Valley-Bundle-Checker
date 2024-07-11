@@ -22,10 +22,10 @@ function parseBundleData(textFile) {
     rooms = []
     let bundleData = textFile.split("bundleData")
     let bundlesString = bundleData[1].slice(1,-2)
-    bundlesString = bundlesString.replaceAll(/<\/value>/g,",")
+    bundlesString = bundlesString.replaceAll(/<\/value>/g,".")
     bundlesString = bundlesString.replaceAll(/<\/key>/g,"/")
     bundlesString = bundlesString.replaceAll(/<\/|<|>|value|key|item|string/g,"")
-    let bundlesArray = bundlesString.split(",")
+    let bundlesArray = bundlesString.split(".")
     bundlesArray.forEach(parseBundle)
     //Test print of data on load
     console.log(rooms)
@@ -33,6 +33,10 @@ function parseBundleData(textFile) {
 
 /* Parses bundle information and stores it in rooms[] */
 function parseBundle(bundle) {
+    //Check if bundle data is valid
+    if(bundle == null || bundle == '') {
+        return
+    }
     let data = bundle.split("/")
     //Checks if room exists already, if not then adds room
     let roomIndex = rooms.findIndex(checkRoomName, data[0])
@@ -45,7 +49,6 @@ function parseBundle(bundle) {
     if(data[6] == "") {
         bundleTemp.slots = 0
     }
-    console.log(data)
     let rewardData = data[3].split(" ")
     let rewardTemp = {"name":"N/A","description":"N/A","count": 0}
     //Generates reward data based on JSON data
@@ -75,7 +78,7 @@ function parseBundle(bundle) {
             itemTemp.name = parseReference(objects.default[itemsData[i * 3]].DisplayName)
             itemTemp.description = parseReference(objects.default[itemsData[i * 3]].Description)
             itemTemp.count = itemsData[(i * 3) + 1]
-            switch(data[(i * 3) + 2]) {
+            switch(itemsData[(i * 3) + 2]) {
                 case "3":
                     itemTemp.minQuality = "Iridium"
                     break
@@ -89,6 +92,7 @@ function parseBundle(bundle) {
                     itemTemp.minQuality = "None"
             }
         }
+        bundleTemp.items.push(itemTemp)
     }
     rooms[roomIndex].bundles.push(bundleTemp)
 }
@@ -101,7 +105,7 @@ function checkRoomName(room) {
 /* Loads appropriate string from String JSON files */
 function parseReference(ref) {
     let result = ""
-    let temp = ref.replaceAll(/\[|\]/g,"").replaceAll(/\\\\/g,":")
+    let temp = ref.replaceAll(/\[|\]/g,"").replaceAll(/\\/g,":")
     let data = temp.split(":")
     switch(data[1]) {
         case "Objects":
