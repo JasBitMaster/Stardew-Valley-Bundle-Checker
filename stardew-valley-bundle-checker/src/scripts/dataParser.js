@@ -7,8 +7,15 @@ import * as strings_1_6 from './JSON/1_6_Strings.json'
 let rooms = []
 const reader = new FileReader()
 
+/* Loads a save file from input load event */
+export function loadFile(evt) {
+    let saveFile = evt.target.files[0]
+    console.log(saveFile)
+    parseSave(saveFile)
+}
+
 /* Loads data from a save file in order to be parsed */
-export function parseSave(saveFile) {
+function parseSave(saveFile) {
     if(saveFile) {
         reader.readAsText(saveFile)
     }
