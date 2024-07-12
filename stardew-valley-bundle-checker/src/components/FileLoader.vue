@@ -9,11 +9,6 @@
         height="150"
         src="@/assets/Golden_Scroll.png"
       />
-      <input @change="loadFile" accept="plain/text" type="file" id="file" name="file"/>
-
-      <v-file-input @change="loadFile" validate-on="input">
-      
-      </v-file-input>
 
       <div class="text-center">
         <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
@@ -158,5 +153,5 @@
 </template>
 
 <script setup>
-  import { loadFile } from '../scripts/dataParser.js';
+  //
 </script>
