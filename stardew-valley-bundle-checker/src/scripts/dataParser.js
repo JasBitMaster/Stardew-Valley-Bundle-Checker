@@ -5,7 +5,6 @@ import * as stringsBC from './JSON/BigCraftablesStrings.json'
 import * as strings_1_6 from './JSON/1_6_Strings.json'
 
 let rooms = []
-const reader = new FileReader()
 
 /* Sends the room data */
 export function getRooms() {
@@ -21,6 +20,7 @@ export function loadFile(evt) {
 
 /* Loads data from a save file in order to be parsed */
 function parseSave(saveFile) {
+    const reader = new FileReader()
     if(saveFile) {
         reader.readAsText(saveFile)
     }
