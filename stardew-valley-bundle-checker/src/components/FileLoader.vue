@@ -2,7 +2,7 @@
   <v-container class="fill-height fill-width">
     <v-responsive
       class="align-centerfill-height mx-auto"
-      max-width="900"
+      max-width="960"
     >
       <div class="text-center">
         <v-img
@@ -16,7 +16,6 @@
       </div>
 
       <div class="py-16"></div>
-      <div class="py-8"></div>
 
       <div class="text-center">
         <div id="border">
@@ -34,33 +33,34 @@
       <input @change="loadFile" accept="plain/text" type="file" id="file" name="file" hidden/>
     </v-responsive>
   </v-container>
-  <v-footer
-  app="true"
-  color="#262626B0"
-  >
-  <v-col class="text-center">
-    Programmed by <a href="https://github.com/JasBitMaster">JasBitMaster</a>
-  </v-col>
-  <v-divider class="border-opacity-100" inset="20px" thickness="2px" color="white" vertical />
-  <v-col class="text-center">
-    Inspired by <a href="https://www.youtube.com/@BlaDeSDV">Blade</a>,
-    <a href="https://www.youtube.com/@ArgonMatrix">ArgonMatrix</a>, and the
-    <br>rest of the Stardew Valley Community
-  </v-col>
-  <v-divider class="border-opacity-100" inset="20px" thickness="2px" color="white" vertical />
-  <v-col class="text-center">
-    Stardew Valley, including all game assets,
-    <br>belongs to <a href="https://www.stardewvalley.net/">ConcernedApe</a>
-  </v-col>
-  </v-footer>
+  <AppFooter />
 </template>
 
 <script setup>
-  import { loadFile } from '../scripts/dataParser.js';
+  import { loadFile } from '../scripts/dataParser.js'
+  import AppFooter from '@/components/AppFooter.vue'
 
   function clickInput() {
     document.getElementById("file").click()
+    
   }
+
+  function startUp() {
+    let img = new Image()
+    img.src = "src/assets/sprites/JunimoNote.png"
+    img.onload = function() {
+      loadCanvas(img)
+    }
+  }
+    function loadCanvas(img) { 
+    let canvas = document.getElementById("canvas")
+    let context = canvas.getContext("2d")
+    context.imageSmoothingEnabled = false
+    context.drawImage(img, 0,0,320,180,0,0,960,540)
+  }
+
+  startUp()
+
 </script>
 
 <style scoped>
