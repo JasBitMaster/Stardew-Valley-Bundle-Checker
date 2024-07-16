@@ -4,9 +4,13 @@
       class="align-centerfill-height mx-auto"
       max-width="960"
     >
-      <canvas width="960rem" height="540rem" id="canvas">
-        
-      </canvas>
+      <v-responsive position="relative" width="960px" height="540px">
+        <template>
+
+        </template>
+        <CanvasBackground />
+        <canvas width="960px" height="270px" z-index="1" v-tooltip="'Test'" />
+      </v-responsive>
     </v-responsive>
   </v-container>
   <AppFooter />
@@ -14,27 +18,15 @@
 
 <script setup>
   import AppFooter from '@/components/AppFooter.vue'
-
-  function startUp() {
-    let img = new Image()
-    img.src = "src/assets/sprites/JunimoNote.png"
-    img.onload = function() {
-      loadCanvas(img)
-    }
-  }
-    function loadCanvas(img) { 
-    let canvas = document.getElementById("canvas")
-    let context = canvas.getContext("2d")
-    context.imageSmoothingEnabled = false
-    context.drawImage(img, 0,0,320,180,0,0,960,540)
-  }
-
-  startUp()
+  import CanvasBackground from '@/components/CanvasBackground.vue'
 
 </script>
 
 <style scoped>
 #image {
   margin:auto
+}
+canvas {
+  position: absolute;
 }
 </style>

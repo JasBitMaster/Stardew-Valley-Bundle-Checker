@@ -53,13 +53,23 @@ function parseBundle(bundle) {
     //Checks if room exists already, if not then adds room
     let roomIndex = rooms.findIndex(checkRoomName, data[0])
     if(roomIndex < 0) {
-        rooms.push({"roomIndex": data[0], "spriteIndex": data[1], "bundles": []})
+        rooms.push({"roomIndex": data[0], "bundles": []})
         roomIndex = rooms.length - 1
     }
     //Initializes bundle data
-    let bundleTemp = {"bundleName":data[2], "reward":{}, "items":[],"colorIndex":data[5],"slots":data[6]}
+    let bundleTemp = {"bundleName":data[2], "reward":{}, "items":[],"colorIndex":data[5],"slots":data[6], 
+        "spriteIndex":data[7], "texture":"JunimoNote"}
     if(data[6] == "") {
         bundleTemp.slots = 0
+    }
+    if(data[7] == "") {
+        bundleTemp.spriteIndex = 27 - data[5]
+    }
+    else if(data[7].includes("LooseSprites")) {
+        let tempSprite = data[7].replaceAll("LooseSprites\\", "")
+        tempSprite = tempSprite.split(":")
+        bundleTemp.spriteIndex = tempSprite[1]
+        bundleTemp.texture = tempSprite[0]
     }
     let rewardData = data[3].split(" ")
     let rewardTemp = {"name":"N/A","description":"N/A","count": 0}
