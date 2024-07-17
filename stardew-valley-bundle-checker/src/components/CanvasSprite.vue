@@ -1,10 +1,13 @@
 <template>
-  <canvas :style="{top: offsetX +'px', left: offsetY +'px'}"
-    :width=" width +'px'" :height="height +'px'" :z-index="layer"  id="canvas" />
+  <canvas :style="{top: offsetX +'px', left: offsetY +'px'}" ref="myCanvas"
+    :width=" width +'px'" :height="height +'px'" :z-index="layer" />
 </template>
 
 <script setup>
-  import { defineProps } from 'vue'
+  import { loadBackground } from '@/scripts/spriteParser.js'
+  import { onMounted, ref } from 'vue';
+
+  console.log("Running...")
 
   const props = defineProps(
     {
@@ -17,23 +20,20 @@
       layer:        { type: Number },
     }
   )
-  
+  const myCanvas = ref(null)
+  const context = ref(null)
+
   function startUp() {
-    console.log(props.width + " " + props.height + " " + props.layer)
-    let img = new Image()
-    img.src = "src/assets/sprites/JunimoNote.png"
-    img.onload = function() {
-      loadCanvas(img)
-    }
-  }
-    function loadCanvas(img) { 
-    let canvas = document.getElementById("canvas")
-    let context = canvas.getContext("2d")
-    context.imageSmoothingEnabled = false
-    context.drawImage(img, 0,0,320,180,0,0,960,540)
+    console.log("Mounted...")
+    context.value = myCanvas.value.getContext("2d")
+    loadImage()
   }
 
-  startUp()
+  function loadImage() {
+    loadBackground(context, 0)
+  } 
+
+  onMounted(startUp)
 </script>
 
 <style scoped>

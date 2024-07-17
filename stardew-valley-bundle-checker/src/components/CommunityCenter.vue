@@ -3,8 +3,10 @@
     <v-responsive
       class="align-centerfill-height mx-auto" max-width="960">
       <v-responsive position="relative" width="960px" height="540px">
+        <!-- Initialize background -->
         <CanvasSprite :sprite-index="0" texture="test" :offset-x="0" 
           :offset-y="0" :width="960" :height="540" :layer="0"/>
+
       </v-responsive>
     </v-responsive>
   </v-container>
@@ -12,8 +14,17 @@
 </template>
 
 <script setup>
+  import { defineProps } from 'vue'
   import AppFooter from '@/components/AppFooter.vue'
   import CanvasSprite from '@/components/CanvasSprite.vue';
+
+
+
+  const props = defineProps(
+  {
+    rooms:  [],
+  }
+)
 
 </script>
 
