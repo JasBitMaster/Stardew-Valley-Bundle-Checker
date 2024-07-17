@@ -1,15 +1,10 @@
 <template>
   <v-container class="fill-height fill-width">
     <v-responsive
-      class="align-centerfill-height mx-auto"
-      max-width="960"
-    >
+      class="align-centerfill-height mx-auto" max-width="960">
       <v-responsive position="relative" width="960px" height="540px">
-        <template>
-
-        </template>
-        <CanvasBackground />
-        <canvas width="960px" height="270px" z-index="1" v-tooltip="'Test'" />
+        <CanvasSprite :sprite-index="0" texture="test" :offset-x="0" 
+          :offset-y="0" :width="960" :height="540" :layer="0"/>
       </v-responsive>
     </v-responsive>
   </v-container>
@@ -18,15 +13,10 @@
 
 <script setup>
   import AppFooter from '@/components/AppFooter.vue'
-  import CanvasBackground from '@/components/CanvasBackground.vue'
+  import CanvasSprite from '@/components/CanvasSprite.vue';
 
 </script>
 
 <style scoped>
-#image {
-  margin:auto
-}
-canvas {
-  position: absolute;
-}
+
 </style>

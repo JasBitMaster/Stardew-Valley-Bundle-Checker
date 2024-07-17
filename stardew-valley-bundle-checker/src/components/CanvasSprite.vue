@@ -1,10 +1,25 @@
 <template>
-  <canvas width="{{ width }}" height="{{ height }}" z-index="{{ layer }}" id="canvas" />
+  <canvas :style="{top: offsetX +'px', left: offsetY +'px'}"
+    :width=" width +'px'" :height="height +'px'" :z-index="layer"  id="canvas" />
 </template>
 
 <script setup>
+  import { defineProps } from 'vue'
+
+  const props = defineProps(
+    {
+      spriteIndex:  { type: Number },
+      texture:      { type: String },
+      offsetX:      { type: Number },
+      offsetY:      { type: Number },
+      width:        { type: Number },
+      height:       { type: Number },
+      layer:        { type: Number },
+    }
+  )
   
   function startUp() {
+    console.log(props.width + " " + props.height + " " + props.layer)
     let img = new Image()
     img.src = "src/assets/sprites/JunimoNote.png"
     img.onload = function() {
@@ -19,19 +34,10 @@
   }
 
   startUp()
-
-  export default {
-    props: {
-      spriteIndex:  { type: Number },
-      texture:      { type: String },
-      width:        { type: Number },
-      height:       { type: Number },
-      layer:        { type: Number },
-    }
-  }
-
 </script>
 
 <style scoped>
-
+canvas {
+  position: absolute;
+}
 </style>
