@@ -35,7 +35,7 @@ function loadBundlePage(bundle) {
 }
 
 export function loadBackground(context, roomType) {
-    loadSprite(context, "JunimoNote", 0, 0, roomType, 320, 180, 2)
+    loadSprite(context, "JunimoNote", roomType, 0, 0, 320, 180, 2)
 }
 
 export function loadBundle(context, colorIndex) {

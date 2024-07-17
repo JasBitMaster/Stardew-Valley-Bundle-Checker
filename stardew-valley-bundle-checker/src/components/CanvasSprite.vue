@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-  import { loadBackground } from '@/scripts/spriteParser.js'
+  import { loadBackground, loadBundle } from '@/scripts/spriteParser.js'
   import { onMounted, ref } from 'vue';
 
   console.log("Running...")
@@ -13,6 +13,7 @@
     {
       spriteIndex:  { type: Number },
       texture:      { type: String },
+      spriteType:   { type: String },
       offsetX:      { type: Number },
       offsetY:      { type: Number },
       width:        { type: Number },
@@ -30,7 +31,15 @@
   }
 
   function loadImage() {
-    loadBackground(context, 0)
+    switch(props.spriteType) {
+      case "background":
+        loadBackground(context, props.spriteIndex)
+        break
+      case "bundle":
+        loadBundle(context, props.spriteIndex)
+        break
+    }
+    
   } 
 
   onMounted(startUp)
