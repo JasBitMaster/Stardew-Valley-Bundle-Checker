@@ -42,7 +42,6 @@
 
   function clickInput() {
     document.getElementById("file").click()
-    
   }
 </script>
 

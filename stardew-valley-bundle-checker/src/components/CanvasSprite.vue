@@ -1,26 +1,23 @@
 <template>
-  <canvas :style="{top: offsetX +'px', left: offsetY +'px'}" ref="myCanvas"
+  <canvas :style="{top: sprite.offsetY +'px', left: sprite.offsetX +'px'}" ref="myCanvas"
     :width=" width +'px'" :height="height +'px'" :z-index="layer" />
 </template>
 
 <script setup>
-  import { loadBackground, loadBundle } from '@/scripts/spriteParser.js'
+
+  import { drawSprite } from '@/scripts/spriteParser.js'
   import { onMounted, ref } from 'vue';
 
   console.log("Running...")
 
-  const props = defineProps(
-    {
-      spriteIndex:  { type: Number },
-      texture:      { type: String },
-      spriteType:   { type: String },
-      offsetX:      { type: Number },
-      offsetY:      { type: Number },
-      width:        { type: Number },
-      height:       { type: Number },
-      layer:        { type: Number },
-    }
-  )
+  const props = defineProps({
+    sprite:       { type: Object },
+    spriteType:   { type: String },
+    width:        { type: Number },
+    height:       { type: Number },
+    layer:        { type: Number },
+  })
+
   const myCanvas = ref(null)
   const context = ref(null)
 
@@ -29,19 +26,9 @@
     context.value = myCanvas.value.getContext("2d")
     loadImage()
   }
-
   function loadImage() {
-    switch(props.spriteType) {
-      case "background":
-        loadBackground(context, props.spriteIndex)
-        break
-      case "bundle":
-        loadBundle(context, props.spriteIndex)
-        break
-    }
-    
-  } 
-
+    drawSprite(context, props.spriteType, props.sprite)
+  }
   onMounted(startUp)
 </script>
 

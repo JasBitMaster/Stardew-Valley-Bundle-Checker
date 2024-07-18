@@ -34,13 +34,24 @@ function loadBundlePage(bundle) {
     //Load reward
 }
 
-export function loadBackground(context, roomType) {
-    loadSprite(context, "JunimoNote", roomType, 0, 0, 320, 180, 2)
-}
-
-export function loadBundle(context, colorIndex) {
-    let adjustedIndex = colorIndex * 16
-    loadSprite(context, "JunimoNote", 0, 244, adjustedIndex, 16, 16, 32)
+export function drawSprite(context, spriteType, sprite) {
+    
+    switch(spriteType) {
+        case "background":
+            loadSprite(context, sprite.texture, sprite.index, 0, 0, 320, 180, 2)
+            break
+        case "bundle":
+            let adjustedIndex = sprite.index * 16
+            loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32)
+            break
+        case "item":
+            loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 16, 24)
+            break
+        case "craftable":
+            loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 32, 8)
+            break
+    }
+    //TODO - Add cases for arrow inputs, slots, reward icon, bundle icon, text?
 }
 
 function loadSprite(context, texture, spriteIndex, startX, startY, width, height, rowCount) {
@@ -84,6 +95,6 @@ function loadSprite(context, texture, spriteIndex, startX, startY, width, height
     }
 }
 
-function loadText(text) {
+function loadText(context, text, posX, posY) {
 
 }
