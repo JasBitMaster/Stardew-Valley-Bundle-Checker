@@ -30,18 +30,27 @@
         id="image"
         src="@/assets/imgs/Golden_Scroll.png"
       />
-      <input @change="loadFile" accept="plain/text" type="file" id="file" name="file" hidden/>
+      <input @change="loadData" accept="plain/text" type="file" id="file" name="file" hidden/>
     </v-responsive>
   </v-container>
   <AppFooter />
 </template>
 
 <script setup>
+  import { useRouter } from 'vue-router';
   import { loadFile } from '../scripts/dataParser.js'
   import AppFooter from '@/components/AppFooter.vue'
 
+  const router = useRouter()
+
   function clickInput() {
     document.getElementById("file").click()
+  }
+  async function loadData(evt) {
+    loadFile(evt).then((rooms) => {
+      console.log("Rooms:" + rooms)
+      router.push({name:"bundle", props:{ rooms }})
+    })
   }
 </script>
 

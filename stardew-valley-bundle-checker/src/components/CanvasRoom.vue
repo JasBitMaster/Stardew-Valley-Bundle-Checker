@@ -70,7 +70,6 @@
   https://vuejs.org/guide/components/props.html
   https://vuejs.org/guide/components/events
   https://router.vuejs.org/guide/essentials/navigation.html
-  https://uvr.esm.is/introduction.html#installation
   */
 </script>
 

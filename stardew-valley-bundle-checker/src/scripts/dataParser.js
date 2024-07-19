@@ -12,21 +12,24 @@ export function getRooms() {
 }
 
 /* Loads a save file from input load event */
-export function loadFile(evt) {
+export async function loadFile(evt) {
     let saveFile = evt.target.files[0]
     console.log(saveFile)
-    parseSave(saveFile)
+    return await parseSave(saveFile)
 }
 
 /* Loads data from a save file in order to be parsed */
-function parseSave(saveFile) {
-    const reader = new FileReader()
-    if(saveFile) {
-        reader.readAsText(saveFile)
-    }
-    reader.addEventListener("load", function (evt) {
-        parseBundleData(evt.target.result)
-    }, false)
+async function parseSave(saveFile) {
+    let myPromise = new Promise(function(resolve) {
+        const reader = new FileReader()
+        if(saveFile) {
+            reader.readAsText(saveFile)
+        }
+        reader.addEventListener("load", async function (evt) {
+            resolve(parseBundleData(evt.target.result))
+        }, false)
+    })
+    return await myPromise
 }
 
 /* Extracts bundle information from save file and iterates over bundles to populate rooms[] */
@@ -41,6 +44,7 @@ function parseBundleData(textFile) {
     bundlesArray.forEach(parseBundle)
     //Test print of data on load
     console.log(rooms)
+    return rooms
 }
 
 /* Parses bundle information and stores it in rooms[] */
