@@ -4,11 +4,6 @@
 
 <script setup>
   import CommunityCenter from '@/components/CommunityCenter.vue'
-  import { onMounted } from 'vue';
-
-  const props = defineProps(["rooms"])
-
-  onMounted(() => {
-    console.log(props.rooms)
-  })
+  const roomsString = localStorage.getItem("rooms")
+  const rooms = JSON.parse(roomsString)
 </script>

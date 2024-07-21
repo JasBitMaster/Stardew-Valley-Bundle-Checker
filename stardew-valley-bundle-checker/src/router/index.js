@@ -1,12 +1,11 @@
 
 import CommunityCenter from '@/pages/CommunityCenter.vue'
 import HomePage from '@/pages/HomePage.vue'
-import { mergeProps } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 
 const routes = [
   { path: "/", name: "home", component: HomePage },
-  { path: "/viewBundles", name: "bundle", component: CommunityCenter, props: true }
+  { path: "/viewBundles", name: "bundle", component: CommunityCenter }
 ]
 
 const router = createRouter({

@@ -22,7 +22,6 @@
   const context = ref(null)
 
   function startUp() {
-    console.log("Mounted...")
     context.value = myCanvas.value.getContext("2d")
     loadImage()
   }

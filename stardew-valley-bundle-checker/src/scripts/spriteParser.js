@@ -41,7 +41,7 @@ export function drawSprite(context, spriteType, sprite) {
             loadSprite(context, sprite.texture, sprite.index, 0, 0, 320, 180, 2)
             break
         case "bundle":
-            let adjustedIndex = sprite.index * 16
+            let adjustedIndex = sprite.index * 16 + 1
             loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32)
             break
         case "item":

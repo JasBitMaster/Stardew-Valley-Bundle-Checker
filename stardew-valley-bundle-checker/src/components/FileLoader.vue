@@ -48,8 +48,9 @@
   }
   async function loadData(evt) {
     loadFile(evt).then((rooms) => {
-      console.log("Rooms:" + rooms)
-      router.push({name:"bundle", props:{ rooms }})
+      console.log("Rooms: " + JSON.stringify(rooms))
+      localStorage.setItem("rooms", JSON.stringify(rooms))
+      router.push({name:"bundle"})
     })
   }
 </script>
