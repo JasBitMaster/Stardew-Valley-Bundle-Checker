@@ -16,7 +16,11 @@
   background-size: cover;
 }
 @font-face {
-    font-family: "sdv-text";
-    src: url('./assets/fonts/Stardew_Valley.ttf');
+    font-family: "sv-bold";
+    src: url('./assets/fonts/svbold.ttf');
+}
+@font-face {
+    font-family: "sv-thin";
+    src: url('./assets/fonts/svthin.ttf');
 }
 </style>

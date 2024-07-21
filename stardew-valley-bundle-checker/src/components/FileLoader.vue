@@ -15,13 +15,14 @@
         </div>
       </div>
 
-      <div class="py-16"></div>
+      <div class="py-12"></div>
 
       <div class="text-center">
         <div id="border">
           <p>Press the scroll to load a save file...</p>
         </div>
       </div>
+      
       <v-img
         @click="clickInput"
         class="mb-4"
@@ -71,7 +72,7 @@
   margin:auto
 }
 h1, p {
-  font-family: 'sdv-text';
+  font-family: 'sv-bold';
   font-size: x-large;
   text-shadow: black 2px 2px 5px;
 }

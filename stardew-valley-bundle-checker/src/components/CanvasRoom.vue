@@ -1,11 +1,7 @@
 <template>
   <!-- Initialize background -->
-  <!--
-  <CanvasSprite :sprite-index="0" texture="JunimoNote" sprite-type="background"
-    :offset-x="0" :offset-y="0" :width="960" :height="540" :layer="0"/>
-  -->
   <CanvasSprite :sprite-type="'background'" :sprite="sprites[0]" :width="960" :height="540" :layer="0"/>
-  <!-- Initialize background --> 
+  <!-- Initialize bundles -->
   <template v-for="(bundle, index) in room.bundles">
     <CanvasSprite sprite-type="bundle" :sprite="bundleSprites[index]"
       :width="48" :height="48" :layer="1"/>
@@ -14,7 +10,7 @@
 
 <script setup>
   import CanvasSprite from '@/components/CanvasSprite.vue'
-  import { onBeforeMount, onMounted } from 'vue';
+  import { onBeforeMount } from 'vue';
 
   const props = defineProps({
     room:  {
@@ -29,6 +25,7 @@
 
   function init() {
     let tempSprite = genSprite(0,"JunimoNote",0,0)
+    tempSprite.name = props.room.roomIndex
     console.log(JSON.stringify(tempSprite))
     sprites.push(tempSprite)
 
@@ -40,11 +37,9 @@
       bundleSprites.push(tempSprite)
     });
   }
-
   function genSprite(index, texture, offsetX, offsetY) {
     return {index: index, texture: texture, offsetX: offsetX, offsetY: offsetY}
   }
-
   function onBundlePress(bundleIndex) {
 
   }
