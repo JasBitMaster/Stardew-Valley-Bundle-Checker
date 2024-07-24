@@ -29,6 +29,8 @@ const qualityY = 10 * scaler
 const textX = 19 * tagScaler
 const textY = 19 * tagScaler
 
+const navPos = [337,352,365]
+
 let img = new Image()
 
 export function drawSprite(context, spriteType, sprite) {
@@ -43,8 +45,21 @@ export function drawSprite(context, spriteType, sprite) {
             loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32, 0, 0)
         break
         case "navigation":
-            //X = 337x, Left = 352x, Right = 365x, ALL 494y
-            //loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 16, 32, 0, 0)
+            loadSprite(context, sprite.texture, 0, navPos[sprite.index], 494, 12, 12, 1, 0, 0)
+        break
+        case "bundleIcon":
+            if(sprite.texture == "BundleSprites") {
+                loadSprite(context, sprite.texture, sprite.index, 0, 0, 32, 32, 8, 0, 0)
+            } else {
+                loadSprite(context, sprite.texture, sprite.index, 0, 180, 32, 32, 20, 0, 0)
+            }
+        break
+        case "itemSlot":
+            if(sprite.index > 0) {
+                loadSprite(context, sprite.texture, 0, 512, 244, 18, 18, 1, 0, 0)
+            } else {
+                loadSprite(context, sprite.texture, 0, 516, 286, 68, 20, 1, 0, 0)
+            }
         break
         case "craftable":
             loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 32, 8, 0, 0)
@@ -75,7 +90,6 @@ export function drawSprite(context, spriteType, sprite) {
             }
         break
     }
-    //TODO - Add cases for navigation, slots, bundle icon
 }
 
 function loadSprite(context, texture, spriteIndex, startX, startY, width, height, rowCount, shiftX, shiftY) {

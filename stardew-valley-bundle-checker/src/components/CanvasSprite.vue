@@ -23,7 +23,7 @@
 
   function startUp() {
     context.value = myCanvas.value.getContext("2d")
-    context.value.font = "36px sv-bold"
+    context.value.font = "32px sv-bold"
     context.value.textBaseline = "middle"
     context.value.textAlign = "center"
     loadImage()

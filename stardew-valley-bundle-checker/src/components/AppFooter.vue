@@ -1,6 +1,6 @@
 <template>
   <v-footer
-  app="true"
+  :app="true"
   color="#262626B0"
   >
   <v-col class="text-center">
