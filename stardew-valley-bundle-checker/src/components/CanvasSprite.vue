@@ -18,9 +18,10 @@
     layer:        { type: Number },
   })
 
-  const myCanvas = ref(null)
-  const context = ref(null)
+  const myCanvas = ref(null)    // Current canvas to draw on
+  const context = ref(null)     // 2DContext of current canvas
 
+  /* Initializes context values and loads texture */
   function startUp() {
     context.value = myCanvas.value.getContext("2d")
     context.value.font = "32px sv-bold"
@@ -28,9 +29,11 @@
     context.value.textAlign = "center"
     loadImage()
   }
+  /* Draws sprite to the canvas */
   function loadImage() {
     drawSprite(context, props.spriteType, props.sprite)
   }
+
   onMounted(startUp)
 </script>
 

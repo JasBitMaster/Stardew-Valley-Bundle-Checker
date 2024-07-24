@@ -44,9 +44,11 @@
 
   const router = useRouter()
 
+  /* Clicks file loader when scroll image is clicked */
   function clickInput() {
     document.getElementById("file").click()
   }
+  /* Loads bundle data from save file then stores it and navigates to main page */
   async function loadData(evt) {
     loadFile(evt).then((rooms) => {
       console.log("Rooms: " + JSON.stringify(rooms))

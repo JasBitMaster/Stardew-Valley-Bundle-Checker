@@ -5,6 +5,7 @@ import Objects from "../assets/sprites/Objects.png"
 import Objects_2 from "../assets/sprites/Objects_2.png"
 import Cursors from "../assets/sprites/Cursors.png"
 
+/* Creates image objects to act as spritesheets */
 let junimoNoteImg, bundleSpritesImg, craftablesImg, objectsImg, objectsImg2, cursorsImg
 junimoNoteImg = new Image()
 bundleSpritesImg = new Image()
@@ -12,7 +13,7 @@ craftablesImg = new Image()
 objectsImg = new Image()
 objectsImg2 = new Image()
 cursorsImg = new Image()
-
+/* Loads spritesheet textures from files */
 junimoNoteImg.src = JunimoNote
 bundleSpritesImg.src = BundleSprites
 craftablesImg.src = Craftables
@@ -20,19 +21,20 @@ objectsImg.src = Objects
 objectsImg2.src = Objects_2
 cursorsImg.src = Cursors
 
-const scaler = 3
-const tagScaler = 2
+const scaler = 3                // Factor to scale sprites up by
+const tagScaler = 2             // Factor to scale item markers up by
 
-const qualityX = 1 * scaler
-const qualityY = 10 * scaler
+const qualityX = 1 * scaler     // Position x of quality indicator
+const qualityY = 10 * scaler    // Position y of quality indicator
 
-const textX = 19 * tagScaler
-const textY = 19 * tagScaler
+const textX = 19 * tagScaler    // Position x of count indicator
+const textY = 19 * tagScaler    // Position y of count indicator
 
-const navPos = [337,352,365]
+const navPos = [337,352,365]    // Offsets for x position of navigation sprites
 
-let img = new Image()
+let img = new Image()           // Currently loaded image
 
+/* Determines what type of sprite is being drawn, then draws it to the canvas */
 export function drawSprite(context, spriteType, sprite) {
     
     switch(spriteType) {
@@ -66,6 +68,7 @@ export function drawSprite(context, spriteType, sprite) {
         break
         case "item":
             loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 16, 24, 0, 0)
+            //Adds quality indicator if it exists
             switch(sprite.item.minQuality) {
                 case "Silver":
                     loadSprite(context, "Cursors", 2, 338, 392, 8, 8, 2, qualityX, qualityY)
@@ -77,6 +80,7 @@ export function drawSprite(context, spriteType, sprite) {
                     loadSprite(context, "Cursors", 1, 338, 392, 8, 8, 2, qualityX, qualityY)
                 break
             }
+            //Adds count indicator if it exceeds one
             if(sprite.item.count > 1) {
                 let i = sprite.item.count
                 let offsetX = 0
@@ -92,8 +96,9 @@ export function drawSprite(context, spriteType, sprite) {
     }
 }
 
+/* Loads sprite data from appropriate file and draws it to the canvas once loaded */
 function loadSprite(context, texture, spriteIndex, startX, startY, width, height, rowCount, shiftX, shiftY) {
-
+    //Determines which image texture to load
     switch(texture) {
         case "JunimoNote":
             img = junimoNoteImg
@@ -114,15 +119,14 @@ function loadSprite(context, texture, spriteIndex, startX, startY, width, height
             img = cursorsImg
         break
     }
-
+    //Makes textures pixel perfect
     context.value.imageSmoothingEnabled = false
-
+    //Determines the position offset based on index and number of sprites in a row
     let offsetX = spriteIndex % rowCount
     let offsetY = Math.floor(spriteIndex / rowCount)
-
     let sx = width * offsetX + startX
     let sy = height * offsetY + startY
-
+    //Draws sprite to canvas once image has loaded
     if(img.complete) {
         context.value.drawImage(img, sx, sy, width, height, shiftX, shiftY, width * scaler, height * scaler)
             console.log("Image Updated...")
@@ -134,6 +138,7 @@ function loadSprite(context, texture, spriteIndex, startX, startY, width, height
     }
 }
 
+/* Draws text to the canvas after its texture has loaded */
 function loadText(context, text, posX, posY) {
     if(img.complete) {
         context.value.fillText(text, posX, posY)
