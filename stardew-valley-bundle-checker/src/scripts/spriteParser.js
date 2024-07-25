@@ -40,7 +40,13 @@ export function drawSprite(context, spriteType, sprite) {
     switch(spriteType) {
         case "background":
             loadSprite(context, sprite.texture, sprite.index, 0, 0, 320, 180, 2, 0, 0)
-            loadText(context, sprite.name, (320 * scaler)/2, 36)
+            if(sprite.index == 0) {
+                context.value.font = "32px sv-bold"
+                loadText(context, sprite.name, (320 * scaler)/2, 36)
+            } else {
+                context.value.font = "32px sv-thin"
+                loadText(context, sprite.name + " Bundle", 704, 200)
+            }
         break
         case "bundle":
             let adjustedIndex = sprite.index * 16 + 1

@@ -3,16 +3,12 @@
     <v-responsive
       class="align-centerfill-height mx-auto" max-width="960">
       <v-responsive position="relative" width="960px" height="540px">
-        
         <template v-for="(room, index) in rooms">
           <div style="display: none;" :ref="addRef">
             <CanvasRoom :room="room" :index="index" @updated="() => { pagesLoaded = 0 }"
               @mounted="loadConfirm" @arrowPress="onArrowPress"/>
           </div>
         </template>
-       <!--
-        <CanvasRoom :room="rooms[1]" :index="1"/>
-         -->
       </v-responsive>
     </v-responsive>
   </v-container>

@@ -1,7 +1,7 @@
 <template>
   <!-- Initialize background -->
   <CanvasSprite :sprite-type="'background'" :sprite="sprites[0]" :width="960" :height="540" :layer="0"/>
-  <!-- Initialize background -->
+  <!-- Initialize arrows -->
   <CanvasSprite :sprite-type="'navigation'" :sprite="sprites[1]" @click="onArrowPress('left')"
     :width="36" :height="36" :layer="2"/>
   <CanvasSprite :sprite-type="'navigation'" :sprite="sprites[2]" @click="onArrowPress('right')"
@@ -9,12 +9,16 @@
   <!-- Initialize bundles -->
   <template v-for="(bundle, index) in room.bundles">
     <CanvasSprite sprite-type="bundle" :sprite="bundleSprites[index]"
-      :width="48" :height="48" :layer="1"/>
+      :width="48" :height="48" :layer="1" @click="bundlePress(index)" />
+      <div style="display: none;" :ref="addRef">
+        <CanvasBundle :bundle="bundle" :index="index" @close="exitPress"/>
+      </div>
   </template>
 </template>
 
 <script setup>
   import CanvasSprite from '@/components/CanvasSprite.vue'
+  import CanvasBundle from './CanvasBundle.vue';
   import { onBeforeMount, onMounted, onUpdated } from 'vue';
 
   const props = defineProps({
@@ -24,6 +28,8 @@
     },
     index: { type: Number }
   })
+  const bundleRefs = []
+
   const emit = defineEmits(['updated','mounted', 'arrowPress'])
 
   const bundleOffsets =                           // Position offsets for each bundle
@@ -57,15 +63,22 @@
   function onArrowPress(direction) {
     emit("arrowPress", direction)
   }
-  /* Loads new page based on bundle clicked */
-  function onBundlePress() {
-    
+  /* Loads popup page based on bundle clicked */
+  function bundlePress(bundleIndex) {
+    bundleRefs[bundleIndex].style = "display: inherit;"
+  }
+  /* Hide popup page on exit */
+  function exitPress(bundleIndex) {
+    bundleRefs[bundleIndex].style = "display: none;"
+  }
+  /* Loads references for subpages */
+  function addRef(el) {
+    bundleRefs.push(el)
   }
   /* Notifies parent that page has loaded */
   function startUp() {
     emit("mounted")
   }
-
   /* Initializes page for startup */
   onBeforeMount(init)
   onMounted(startUp)

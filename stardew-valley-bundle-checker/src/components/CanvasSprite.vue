@@ -1,6 +1,6 @@
 <template>
-  <canvas :style="{top: sprite.offsetY +'px', left: sprite.offsetX +'px'}" ref="myCanvas"
-    :width=" width +'px'" :height="height +'px'" :z-index="layer" />
+  <canvas :style="{top: sprite.offsetY +'px', left: sprite.offsetX +'px', zIndex:layer}" ref="myCanvas"
+    :width=" width +'px'" :height="height +'px'" />
 </template>
 
 <script setup>
