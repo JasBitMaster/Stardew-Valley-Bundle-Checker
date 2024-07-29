@@ -1,11 +1,13 @@
 <template>
   <!-- Initialize background -->
   <CanvasSprite :sprite-type="'background'" :sprite="sprites[0]" :width="960" :height="540" :layer="3"/>
-
+  <!-- Initialize back buttons -->
   <CanvasSprite :sprite-type="'navigation'" :sprite="sprites[1]" @click="exit"
     :width="36" :height="36" :layer="4"/>
   <CanvasSprite :sprite-type="'navigation'" :sprite="sprites[2]" @click="exit"
     :width="36" :height="36" :layer="4"/>
+  <!-- Initialize bundle icon -->
+  <CanvasSprite :sprite-type="'bundleIcon'" :sprite="sprites[3]" :width="96" :height="96" :layer="4"/>
   <!--
   <template v-for="(bundle, index) in room.bundles">
     <CanvasSprite sprite-type="bundle" :sprite="bundleSprites[index]"
@@ -43,10 +45,11 @@
     //Load navigation buttons
     sprites.push(genSprite(1,"Cursors",64,64))
     sprites.push(genSprite(0,"Cursors",920,4))
-
+    //Load bundle icon
+    sprites.push(genSprite(props.bundle.spriteIndex, props.bundle.texture, 655, 66))
     //TODO - load slots
+    
     //TODO - load items
-    //TODO - load bundleIcon
 
   }
   /* Generates a new sprite object based on the provided data */

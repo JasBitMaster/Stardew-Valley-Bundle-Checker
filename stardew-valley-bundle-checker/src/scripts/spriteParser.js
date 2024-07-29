@@ -32,20 +32,18 @@ const textY = 19 * tagScaler    // Position y of count indicator
 
 const navPos = [337,352,365]    // Offsets for x position of navigation sprites
 
-let img = new Image()           // Currently loaded image
-
 /* Determines what type of sprite is being drawn, then draws it to the canvas */
 export function drawSprite(context, spriteType, sprite) {
     
     switch(spriteType) {
         case "background":
-            loadSprite(context, sprite.texture, sprite.index, 0, 0, 320, 180, 2, 0, 0)
+            let imgRef = loadSprite(context, sprite.texture, sprite.index, 0, 0, 320, 180, 2, 0, 0)
             if(sprite.index == 0) {
                 context.value.font = "32px sv-bold"
-                loadText(context, sprite.name, (320 * scaler)/2, 36)
+                loadText(context, sprite.name, imgRef, (320 * scaler)/2, 36)
             } else {
                 context.value.font = "32px sv-thin"
-                loadText(context, sprite.name + " Bundle", 704, 200)
+                loadText(context, sprite.name + " Bundle", imgRef, 704, 200)
             }
         break
         case "bundle":
@@ -104,6 +102,7 @@ export function drawSprite(context, spriteType, sprite) {
 
 /* Loads sprite data from appropriate file and draws it to the canvas once loaded */
 function loadSprite(context, texture, spriteIndex, startX, startY, width, height, rowCount, shiftX, shiftY) {
+    let img = new Image() 
     //Determines which image texture to load
     switch(texture) {
         case "JunimoNote":
@@ -142,10 +141,11 @@ function loadSprite(context, texture, spriteIndex, startX, startY, width, height
             console.log("Image Loaded...")
         })
     }
+    return img
 }
 
 /* Draws text to the canvas after its texture has loaded */
-function loadText(context, text, posX, posY) {
+function loadText(context, text, img, posX, posY) {
     if(img.complete) {
         context.value.fillText(text, posX, posY)
         console.log("Text Updated...")

@@ -19,7 +19,7 @@
 <script setup>
   import CanvasSprite from '@/components/CanvasSprite.vue'
   import CanvasBundle from './CanvasBundle.vue';
-  import { onBeforeMount, onMounted, onUpdated } from 'vue';
+  import { onBeforeMount, onBeforeUpdate, onMounted, onUpdated } from 'vue';
 
   const props = defineProps({
     room:  {
@@ -82,6 +82,7 @@
   /* Initializes page for startup */
   onBeforeMount(init)
   onMounted(startUp)
+  onBeforeUpdate(init)
   onUpdated(emit("updated"))
 </script>
 

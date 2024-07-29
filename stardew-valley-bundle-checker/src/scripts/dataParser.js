@@ -61,19 +61,25 @@ function parseBundle(bundle) {
         roomIndex = rooms.length - 1
     }
     //Initializes bundle data
-    let bundleTemp = {"bundleName":data[2], "reward":{}, "items":[],"colorIndex":data[5],"slots":data[6], 
-        "spriteIndex":data[7], "texture":"JunimoNote"}
-    if(data[6] == "") {
-        bundleTemp.slots = 0
+    let bundleTemp = {"bundleName":data[2], "reward":{}, "items":[],"colorIndex": parseInt(data[5]),
+        "slots": 0, "spriteIndex": 0, "texture":"JunimoNote"}
+    if(data[6] != "") {
+        bundleTemp.slots = parseInt(data[6])
     }
     if(data[7] == "") {
-        bundleTemp.spriteIndex = 27 - data[5]
+        if(data[6] != "") {
+            bundleTemp.spriteIndex = 36
+        } else {
+            bundleTemp.spriteIndex = 27 - parseInt(data[5])
+        }
     }
     else if(data[7].includes("LooseSprites")) {
         let tempSprite = data[7].replaceAll("LooseSprites\\", "")
         tempSprite = tempSprite.split(":")
-        bundleTemp.spriteIndex = tempSprite[1]
+        bundleTemp.spriteIndex = parseInt(tempSprite[1])
         bundleTemp.texture = tempSprite[0]
+    } else {
+        bundleTemp.spriteIndex = parseInt(data[7])
     }
     let rewardData = data[3].split(" ")
     let rewardTemp = {"name":"N/A","description":"N/A","count": 0}
