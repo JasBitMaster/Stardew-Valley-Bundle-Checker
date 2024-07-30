@@ -13,6 +13,8 @@
     <CanvasSprite sprite-type="itemSlot" :sprite="slotSprites[n-1]"
       :width="54" :height="54" :layer="4"/>
   </template>
+  <CanvasSprite :sprite-type="'itemSlot'" :sprite="sprites[4]"
+    :width="204" :height="60" :layer="4" v-if="bundle.slots <=0"/>
   <!-- Initialize items -->
   <!--
   <template v-for="n in bundle.slots">
@@ -46,8 +48,14 @@
   const slotOffsetX = (9 + 1) * scaler      // X offset per slot
   const slotOffsetY = (9 + 1) * scaler      // Y offset per row of slots
 
+  const itemCenterX = (233 - 8) * scaler    // X position used to place item slot
+  const itemCenterY = (100 - 8) * scaler    // Y position used to place center slot
+  const itemOffsetX = (8 + 1) * scaler      // X offset per slot
+  const itemOffsetY = (8 + 1) * scaler      // Y offset per row of slots
+
   var sprites = []        // Holds currently loaded sprites
   var slotSprites = []    // Holds currently slot sprites
+  var itemSprites = []    // Holds currently slot sprites
 
   /* Loads sprite data before page attempts to load references */
   function init() {
@@ -61,18 +69,26 @@
     //Load bundle icon
     sprites.push(genSprite(props.bundle.spriteIndex, props.bundle.texture, 655, 66))
     //Load item slots
-    genSlots(props.bundle.slots)
+    genObjs(slotSprites, props.bundle.slots, slotCenterX, slotCenterY, slotOffsetX, slotOffsetY)
+    if(props.bundle.slots <= 0) {
+      sprites.push(genSprite(0,"JunimoNote",slotCenterX - 75, slotCenterY - 3))
+    }
     //TODO - load items
-
+    genObjs(itemSprites, props.bundle.items.length, itemCenterX, itemCenterY, itemOffsetX, itemOffsetY)
+    itemSprites.forEach((sprite, index)=> {
+      sprite.index = props.bundle.items[index].spriteIndex
+      sprite.texture = props.bundle.items[index].texture
+      sprite.item = props.bundle.items[index]
+    })
   }
   /* Generates a new sprite object based on the provided data */
   function genSprite(spriteIndex, texture, offsetX, offsetY) {
     return {index: spriteIndex, texture: texture, offsetX: offsetX, offsetY: offsetY}
   }
-  /* Generates sprites for each slot, positioned based on number of slots */
-  function genSlots(count) {
-    let offsetX = []      // Slot x positions
-    let offsetY = []      // Slot y positions
+  /* Generates sprites for each object, positioned based on number of objects */
+  function genObjs(array, count, centerX, centerY, offsetX, offsetY) {
+    let positionX = []    // Object x positions
+    let positionY = []    // Object y positions
     let startingX = 0     // Leftmost x position for row
     let startingY = 0     // Topmost y position for row
 
@@ -80,31 +96,31 @@
       let firstRow = Math.ceil(count / 2)   //Length of first row (always longest)
       let secondRow = count - firstRow      //Length of second row (always short)
       //Calculate starting position
-      startingX = slotCenterX - (slotOffsetX * (firstRow - 1))
-      startingY = slotCenterY - slotOffsetY
+      startingX = centerX - (offsetX * (firstRow - 1))
+      startingY = centerY - offsetY
       //Generate first row of sprite offsets
       for(let i = 0; i < firstRow; i++) {
-        offsetX.push(startingX + slotOffsetX * i * 2)
-        offsetY.push(startingY)
+        positionX.push(startingX + offsetX * i * 2)
+        positionY.push(startingY)
       }
       //Generate second row of sprite offsets
-      startingX = slotCenterX - (slotOffsetX * (secondRow - 1))
+      startingX = centerX - (offsetX * (secondRow - 1))
       for(let i = 0; i < secondRow; i++) {
-        offsetX.push(startingX + slotOffsetX * i * 2)
-        offsetY.push(startingY + slotOffsetY * 2)
+        positionX.push(startingX + offsetX * i * 2)
+        positionY.push(startingY + offsetY * 2)
       }
     } else {
       //Calculate starting position
-      startingX = slotCenterX - (slotOffsetX * (count - 1))
+      startingX = centerX - (offsetX * (count - 1))
       //Generate row of sprite offsets
       for(let i = 0; i < count; i++) {
-        offsetX.push(startingX + slotOffsetX * i * 2)
-        offsetY.push(slotCenterY)
+        positionX.push(startingX + offsetX * i * 2)
+        positionY.push(centerY)
       }
     }
     //Generate sprites based on offsets
     for (let i = 0; i < count; i++) {
-      slotSprites.push(genSprite(1,"JunimoNote",offsetX[i],offsetY[i]))
+      array.push(genSprite(1,"JunimoNote", positionX[i], positionY[i]))
     }
   }
 
