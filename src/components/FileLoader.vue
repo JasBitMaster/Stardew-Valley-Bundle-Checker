@@ -61,7 +61,7 @@
 <style scoped>
 #border {
   border:15px solid transparent;
-  border-image: url(src/assets/imgs/menu_border.png) 15 stretch;
+  border-image: url(../assets/imgs/menu_border.png) 15 stretch;
   border-radius: 15px;
   max-width: fit-content;
   background-color: #F6B569;
