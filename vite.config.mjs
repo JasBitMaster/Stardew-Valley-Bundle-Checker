@@ -33,6 +33,7 @@ export default defineConfig({
       },
     }),
   ],
+  base: "https://jasbitmaster.github.io/Stardew-Valley-Bundle-Checker/",
   define: { 'process.env': {} },
   resolve: {
     alias: {
