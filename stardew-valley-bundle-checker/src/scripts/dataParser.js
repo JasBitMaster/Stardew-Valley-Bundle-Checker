@@ -103,7 +103,7 @@ function parseBundle(bundle) {
     let itemTemp = {}
     for (let i = 0; i < (itemsData.length / 3); i++) {
         itemTemp = {"name":"N/A","description":"N/A","count": 0,"minQuality":"None",
-            "spriteIndex":-1, "texture":"JunimoNote"}
+            "spriteIndex":-1, "texture":"Objects"}
         if(itemsData[i * 3] == "-1") {
             itemTemp.name = itemsData[(i * 3) + 1]
             itemTemp.description = itemsData[(i * 3) + 1]
@@ -113,7 +113,7 @@ function parseBundle(bundle) {
             itemTemp.spriteIndex = objects.default[itemsData[i * 3]].SpriteIndex
             if(objects.default[itemsData[i * 3]].Texture != null) {
                 let tempString = objects.default[itemsData[i * 3]].Texture
-                tempString = tempString.replaceAll(/TileSheets\\/g,"")
+                tempString = tempString.replaceAll("TileSheets\\","")
                 itemTemp.texture = tempString
             }
             

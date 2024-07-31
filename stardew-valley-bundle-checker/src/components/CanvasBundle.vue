@@ -16,12 +16,10 @@
   <CanvasSprite :sprite-type="'itemSlot'" :sprite="sprites[4]"
     :width="204" :height="60" :layer="4" v-if="bundle.slots <=0"/>
   <!-- Initialize items -->
-  <!--
-  <template v-for="n in bundle.slots">
-    <CanvasSprite sprite-type="itemSlot" :sprite="slotSprites[n-1]"
+  <template v-for="(item, index) in bundle.items">
+    <CanvasSprite sprite-type="item" :sprite="itemSprites[index]"
       :width="54" :height="54" :layer="4"/>
   </template>
-  -->
 </template>
 
 <script setup>
@@ -49,9 +47,9 @@
   const slotOffsetY = (9 + 1) * scaler      // Y offset per row of slots
 
   const itemCenterX = (233 - 8) * scaler    // X position used to place item slot
-  const itemCenterY = (100 - 8) * scaler    // Y position used to place center slot
-  const itemOffsetX = (8 + 1) * scaler      // X offset per slot
-  const itemOffsetY = (8 + 1) * scaler      // Y offset per row of slots
+  const itemCenterY = (90 - 8) * scaler    // Y position used to place center slot
+  const itemOffsetX = (8 + 2) * scaler      // X offset per slot
+  const itemOffsetY = (8 + 2) * scaler      // Y offset per row of slots
 
   var sprites = []        // Holds currently loaded sprites
   var slotSprites = []    // Holds currently slot sprites
