@@ -108,6 +108,13 @@ function parseBundle(bundle) {
             itemTemp.name = itemsData[(i * 3) + 1]
             itemTemp.description = itemsData[(i * 3) + 1]
         } else {
+            //Check for special cases
+            if(itemsData[i * 3] == "-5") {
+                itemsData[i * 3] = "174"
+            }
+            if(itemsData[i * 3] == "-6") {
+                itemsData[i * 3] = "186"
+            }
             itemTemp.name = parseReference(objects.default[itemsData[i * 3]].DisplayName)
             itemTemp.description = parseReference(objects.default[itemsData[i * 3]].Description)
             itemTemp.spriteIndex = objects.default[itemsData[i * 3]].SpriteIndex
