@@ -128,6 +128,12 @@
   }
   /* Initializes page for startup */
   onBeforeMount(init)
+
+  /*
+  Tooltip alignment: https://stackoverflow.com/questions/15702867/html-tooltip-position-relative-to-mouse-pointer
+  Custom pointer: https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
+  Tiling info for drawing borders: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
+  */
 </script>
 
 <style scoped>
