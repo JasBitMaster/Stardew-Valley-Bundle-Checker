@@ -41,7 +41,7 @@
   function loadImage() {
     drawSprite(context, props.spriteType, props.sprite)
   }
-
+  /* Draws tooltip for items with tooltips */
   function drawTooltip(event) {
     if (tooltipSpan.value.innerText != "undefined") {
       let x = event.clientX,

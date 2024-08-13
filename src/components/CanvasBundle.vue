@@ -130,8 +130,8 @@
   onBeforeMount(init)
 
   /*
-  Tooltip alignment: https://stackoverflow.com/questions/15702867/html-tooltip-position-relative-to-mouse-pointer
-  Tiling info for drawing borders: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
+  Animation Code: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations
+  Timeout Timer:  https://developer.mozilla.org/en-US/docs/Web/API/setInterval
   */
 </script>
 

@@ -40,10 +40,16 @@ export function drawSprite(context, spriteType, sprite) {
             let imgRef = loadSprite(context, sprite.texture, sprite.index, 0, 0, 320, 180, 2, 0, 0, scaler)
             if(sprite.index == 0) {
                 context.value.font = "32px sv-bold"
-                loadText(context, sprite.name, imgRef, (320 * scaler)/2, 36)
+                let text = sprite.name
+                let textWidth = context.value.measureText(text).width
+                //TODO - Load tiled sprite
+                loadText(context, text, imgRef, (320 * scaler)/2, 36)
             } else {
                 context.value.font = "bold 32px sv-thin"
-                loadText(context, sprite.name + " Bundle", imgRef, 704, 200)
+                let text = sprite.name + " Bundle"
+                let textWidth = context.value.measureText(text).width
+                //TODO - Load tiled sprite
+                loadText(context, text, imgRef, 704, 200)
             }
         break
         case "bundle":
@@ -159,4 +165,32 @@ function loadText(context, text, img, posX, posY) {
             console.log("Text Loaded...")
         })
     }
+}
+
+/* Draws sprites that tile horizontally in some way */
+function drawStretchSprite(context, textWidth, stretchType) {
+    let tileWidths =    []
+    let tileHeights =   []
+    let tileOffsetsX =  []
+    let tileOffsetsY =  []
+    let textures =      ["JunimoNote", "Cursor"]
+
+    let indexOffset = stretchType * 3
+    let shiftX = 0
+    let shiftY = 0
+
+    //Draws the left portion of the sprite
+    loadSprite(context, textures[stretchType], 0, tileOffsetsX[indexOffset], tileOffsetsY[indexOffset],
+        tileWidths[indexOffset], tileHeights[indexOffset], 1, shiftX, shiftY, scaler)
+    shiftX += tileWidths[indexOffset]
+    //Tile middle part of texture for text width
+    for(let i = 0; i < textWidth; i += tileWidths[indexOffset + 1]) {
+        loadSprite(context, textures[stretchType], 0, tileOffsetsX[indexOffset + 1], tileOffsetsY[indexOffset + 1],
+            tileWidths[indexOffset + 1], tileHeights[indexOffset + 1], 1, shiftX, shiftY, scaler)
+        shiftX += tileWidths[indexOffset + 1]
+    }
+
+    //Draws the right portion of the sprite
+    loadSprite(context, textures[stretchType], 0, tileOffsetsX[indexOffset + 2], tileOffsetsY[indexOffset + 2],
+        tileWidths[indexOffset + 2], tileHeights[indexOffset + 2], 1, shiftX, shiftY, scaler)
 }
