@@ -8,7 +8,7 @@
     :width="36" :height="36" :layer="2"/>
   <!-- Initialize bundles -->
   <template v-for="(bundle, index) in room.bundles">
-    <CanvasSprite sprite-type="bundle" :sprite="bundleSprites[index]"
+    <CanvasSprite sprite-type="bundle" :sprite="bundleSprites[index]" :name="bundle.bundleName + ' Bundle'"
       :width="48" :height="48" :layer="1" @click="bundlePress(index)" />
       <div style="display: none;" :ref="addRef">
         <CanvasBundle :bundle="bundle" :index="index" @close="exitPress"/>

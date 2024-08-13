@@ -42,7 +42,7 @@ export function drawSprite(context, spriteType, sprite) {
                 context.value.font = "32px sv-bold"
                 loadText(context, sprite.name, imgRef, (320 * scaler)/2, 36)
             } else {
-                context.value.font = "32px sv-thin"
+                context.value.font = "bold 32px sv-thin"
                 loadText(context, sprite.name + " Bundle", imgRef, 704, 200)
             }
         break

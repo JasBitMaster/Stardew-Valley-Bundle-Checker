@@ -18,7 +18,7 @@
   <!-- Initialize items -->
   <template v-for="(item, index) in bundle.items">
     <CanvasSprite sprite-type="item" :sprite="itemSprites[index]"
-      :width="54" :height="54" :layer="4"/>
+      :width="54" :height="54" :layer="4" :name="item.name"/>
   </template>
 </template>
 
@@ -131,7 +131,6 @@
 
   /*
   Tooltip alignment: https://stackoverflow.com/questions/15702867/html-tooltip-position-relative-to-mouse-pointer
-  Custom pointer: https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
   Tiling info for drawing borders: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
   */
 </script>

@@ -7,14 +7,22 @@
 </template>
 
 <script setup>
-  //
+    
 </script>
 
 <style>
 #bg {
+  cursor: url('./assets/imgs/Cursor.png'), auto;
   background: url('@/assets/imgs/stardewbackground.png') no-repeat center center fixed;
   background-size: cover;
 }
+template {
+  cursor: url('./assets/imgs/Cursor.png'), default;
+}
+a {
+  cursor: url('@/assets/imgs/Cursor.png'), default;
+}
+
 @font-face {
     font-family: "sv-bold";
     src: url('./assets/fonts/svbold.ttf');
