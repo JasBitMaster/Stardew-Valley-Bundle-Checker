@@ -14,6 +14,8 @@
         <CanvasBundle :bundle="bundle" :index="index" @close="exitPress"/>
       </div>
   </template>
+  <!-- Initialize scroll -->
+  <CanvasSprite :sprite-type="'scroll'" :sprite="sprites[3]" :width="960" :height="54" :layer="5"/>
 </template>
 
 <script setup>
@@ -24,6 +26,7 @@
   const props = defineProps({
     room:  {
       roomIndex: { type: String },
+      reward:   { type: String },
       bundles: []
     },
     index: { type: Number }
@@ -48,6 +51,10 @@
     //Load arrow textures
     sprites.push(genSprite(1,"Cursors",64,16))
     sprites.push(genSprite(2,"Cursors",860,16))
+    let scrollSprite = genSprite(0,"Cursors", 0, 556)
+    //TODO - overwrite with actual reward
+    scrollSprite.name = props.room.reward
+    sprites.push(scrollSprite)
     //Load bundle textures
     props.room.bundles.forEach((bundle, index) => {
       let newSprite = genSprite(bundle.colorIndex, "JunimoNote", 

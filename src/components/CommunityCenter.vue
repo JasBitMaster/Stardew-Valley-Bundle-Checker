@@ -2,7 +2,7 @@
   <v-container class="fill-height fill-width">
     <v-responsive
       class="align-centerfill-height mx-auto" max-width="960">
-      <v-responsive position="relative" width="960px" height="540px">
+      <v-responsive position="relative" width="960px" height="610px">
         <template v-for="(room, index) in rooms">
           <div style="display: none;" :ref="addRef">
             <CanvasRoom :room="room" :index="index" @updated="() => { pagesLoaded = 0 }"

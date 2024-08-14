@@ -32,6 +32,8 @@ const textY = 19 * 2    // Position y of count indicator
 
 const navPos = [337,352,365]    // Offsets for x position of navigation sprites
 
+const borderMargin = 4 * scaler
+
 /* Determines what type of sprite is being drawn, then draws it to the canvas */
 export function drawSprite(context, spriteType, sprite) {
     
@@ -40,17 +42,21 @@ export function drawSprite(context, spriteType, sprite) {
             let imgRef = loadSprite(context, sprite.texture, sprite.index, 0, 0, 320, 180, 2, 0, 0, scaler)
             if(sprite.index == 0) {
                 context.value.font = "32px sv-bold"
-                let text = sprite.name
-                let textWidth = context.value.measureText(text).width
-                //TODO - Load tiled sprite
-                loadText(context, text, imgRef, (320 * scaler)/2, 36)
+                loadText(context, sprite.name, imgRef, (320 * scaler)/2, 36)
             } else {
                 context.value.font = "bold 32px sv-thin"
                 let text = sprite.name + " Bundle"
-                let textWidth = context.value.measureText(text).width
-                //TODO - Load tiled sprite
-                loadText(context, text, imgRef, 704, 200)
+                let textWidth = context.value.measureText(text).width + borderMargin
+                drawStretchSprite(context, textWidth, 0, 704, 198)
+                loadText(context, text, imgRef, 704, 198)
             }
+        break
+        case "scroll":
+            let text = sprite.name
+            let textWidth = context.value.measureText(text).width + borderMargin
+            let img = drawStretchSprite(context, textWidth, 1, (320 * scaler)/2, 8 * scaler)
+            context.value.font = "32px sv-bold"
+            loadText(context, text, img, (320 * scaler)/2, 10 * scaler)
         break
         case "bundle":
             let adjustedIndex = sprite.index * 16 + 1
@@ -168,29 +174,30 @@ function loadText(context, text, img, posX, posY) {
 }
 
 /* Draws sprites that tile horizontally in some way */
-function drawStretchSprite(context, textWidth, stretchType) {
-    let tileWidths =    []
-    let tileHeights =   []
-    let tileOffsetsX =  []
-    let tileOffsetsY =  []
-    let textures =      ["JunimoNote", "Cursor"]
+function drawStretchSprite(context, textWidth, stretchType, centerX, topY) {
+    let tileWidths =    [5, 1, 5, 12, 1, 12]
+    let tileHeights =   [16, 16, 16, 18, 18, 18]
+    let tileOffsetsX =  [517, 522, 523, 325, 337, 338]
+    let tileOffsetsY =  [266, 266, 266, 318, 318, 318]
+    let textures =      ["JunimoNote", "Cursors"]
 
     let indexOffset = stretchType * 3
-    let shiftX = 0
-    let shiftY = 0
+    let shiftX = centerX - Math.floor(textWidth / 2) - (tileWidths[indexOffset]) * scaler
+    let shiftY = topY - 8 * scaler
 
     //Draws the left portion of the sprite
     loadSprite(context, textures[stretchType], 0, tileOffsetsX[indexOffset], tileOffsetsY[indexOffset],
         tileWidths[indexOffset], tileHeights[indexOffset], 1, shiftX, shiftY, scaler)
-    shiftX += tileWidths[indexOffset]
+    shiftX += tileWidths[indexOffset] * scaler
     //Tile middle part of texture for text width
     for(let i = 0; i < textWidth; i += tileWidths[indexOffset + 1]) {
         loadSprite(context, textures[stretchType], 0, tileOffsetsX[indexOffset + 1], tileOffsetsY[indexOffset + 1],
             tileWidths[indexOffset + 1], tileHeights[indexOffset + 1], 1, shiftX, shiftY, scaler)
         shiftX += tileWidths[indexOffset + 1]
     }
-
     //Draws the right portion of the sprite
-    loadSprite(context, textures[stretchType], 0, tileOffsetsX[indexOffset + 2], tileOffsetsY[indexOffset + 2],
+    let img = loadSprite(context, textures[stretchType], 0, tileOffsetsX[indexOffset + 2], tileOffsetsY[indexOffset + 2],
         tileWidths[indexOffset + 2], tileHeights[indexOffset + 2], 1, shiftX, shiftY, scaler)
+
+    return img
 }

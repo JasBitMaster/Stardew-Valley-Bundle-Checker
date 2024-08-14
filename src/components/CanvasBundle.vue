@@ -47,9 +47,9 @@
   const slotOffsetY = (9 + 1) * scaler      // Y offset per row of slots
 
   const itemCenterX = (233 - 8) * scaler    // X position used to place item slot
-  const itemCenterY = (90 - 8) * scaler    // Y position used to place center slot
+  const itemCenterY = (92 - 8) * scaler    // Y position used to place center slot
   const itemOffsetX = (8 + 2) * scaler      // X offset per slot
-  const itemOffsetY = (8 + 2) * scaler      // Y offset per row of slots
+  const itemOffsetY = 8 * scaler      // Y offset per row of slots
 
   var sprites = []        // Holds currently loaded sprites
   var slotSprites = []    // Holds currently slot sprites

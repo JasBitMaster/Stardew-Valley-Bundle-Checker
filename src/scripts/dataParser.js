@@ -5,6 +5,7 @@ import * as stringsBC from './JSON/BigCraftablesStrings.json'
 import * as strings_1_6 from './JSON/1_6_Strings.json'
 
 let rooms = []
+let roomReward = ""
 
 /* Sends the room data */
 export function getRooms() {
@@ -57,7 +58,30 @@ function parseBundle(bundle) {
     //Checks if room exists already, if not then adds room
     let roomIndex = rooms.findIndex(checkRoomName, data[0])
     if(roomIndex < 0) {
-        rooms.push({"roomIndex": data[0], "bundles": []})
+        switch(data[0]) {
+        case "Crafts Room":
+            roomReward = "Bridge Repair"
+        break
+        case "Pantry":
+            roomReward = "Greenhouse"
+        break
+        case "Fish Tank":
+            roomReward = "Glittering Boulder Removed"
+        break
+        case "Boiler Room":
+            roomReward = "Minecarts Repaired"
+        break
+        case "Bulletin Board":
+            roomReward = "Friendship <3"
+        break
+        case "Vault":
+            roomReward = "Bus Repair"
+        break
+        default:
+            roomReward = "???"
+        break
+        }
+        rooms.push({"roomIndex": data[0], "reward": roomReward,"bundles": []})
         roomIndex = rooms.length - 1
     }
     //Initializes bundle data
