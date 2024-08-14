@@ -1,15 +1,10 @@
-<template>
+<template absolute>
+  
   <v-container class="fill-height fill-width">
-    <v-responsive
-      class="align-centerfill-height mx-auto"
-      max-width="960"
-    >
+    <v-responsive class="align-centerfill-height mx-auto" max-width="960">
+
       <div class="text-center">
-        <v-img
-          class="mb-4"
-          height="300"
-          src="@/assets/imgs/logo.png"
-        />
+        <v-img class="mb-4" height="300" src="@/assets/imgs/logo.png" />
         <div id="border">
           <h1 class="text-h2">Bundle Checker</h1>
         </div>
@@ -22,27 +17,30 @@
           <p>Press the scroll to load a save file...</p>
         </div>
       </div>
+      <div class="button" @mousemove="drawTooltip" >
+        <v-img class="mb-4" height="96" width="96" id="image" src="@/assets/imgs/Golden_Scroll.png"
+        @click="clickInput">
+        </v-img>
+        <span class="tooltip" ref="tooltipSpan" id="border">Test</span>
+      </div>
       
-      <v-img
-        @click="clickInput"
-        class="mb-4"
-        height="96"
-        width="96"
-        id="image"
-        src="@/assets/imgs/Golden_Scroll.png"
-      />
       <input @change="loadData" accept="plain/text" type="file" id="file" name="file" hidden/>
+      
     </v-responsive>
   </v-container>
+  
   <AppFooter />
+  
 </template>
 
 <script setup>
-  import { useRouter } from 'vue-router';
+  import { useRouter } from 'vue-router'
   import { loadFile } from '../scripts/dataParser.js'
+  import { ref } from 'vue'
   import AppFooter from '@/components/AppFooter.vue'
 
   const router = useRouter()
+  const tooltipSpan = ref(null)
 
   /* Clicks file loader when scroll image is clicked */
   function clickInput() {
@@ -55,6 +53,14 @@
       localStorage.setItem("rooms", JSON.stringify(rooms))
       router.push({name:"bundle"})
     })
+  }
+  /* Draws tooltip for items with tooltips */
+  function drawTooltip(event) {
+    let x = event.clientX,
+        y = event.clientY
+    //Set tooltip position according to mouse position
+    //tooltipSpan.value.style.top = (y - 20) + 'px'
+    //tooltipSpan.value.style.left = (x - 20) + 'px'
   }
 </script>
 
@@ -70,12 +76,29 @@
   position: relative;
   margin: auto;
 }
+
 #image {
   margin:auto
 }
+
 h1, p {
   font-family: 'sv-bold';
   font-size: x-large;
   text-shadow: black 2px 2px 5px;
+}
+
+.tooltip {
+  display: none;
+}
+
+ .button:hover .tooltip {
+  z-index: 10;
+  font-family: 'sv-thin';
+  font-weight: bold;
+  font-size: 2rem;
+  color: #000;
+  display: block;
+  position: fixed;
+  overflow: hidden;
 }
 </style>

@@ -26,7 +26,7 @@
   const props = defineProps({
     room:  {
       roomIndex: { type: String },
-      reward:   { type: String },
+      reward:    { type: String },
       bundles: []
     },
     index: { type: Number }

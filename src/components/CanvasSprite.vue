@@ -47,8 +47,8 @@
       let x = event.clientX,
           y = event.clientY
       //Set tooltip position according to mouse position
-      tooltipSpan.value.style.top = (y + 10) + 'px'
-      tooltipSpan.value.style.left = (x + 10) + 'px'
+      tooltipSpan.value.style.top = (y - 10) + 'px'
+      tooltipSpan.value.style.left = (x - 10) + 'px'
       tooltipSpan.value.style.display = 'block'
     } else {
       tooltipSpan.value.style.display = 'none'
@@ -61,9 +61,6 @@
 <style scoped>
 canvas {
   position: absolute;
-}
-.tooltip {
-  display: none;
 }
 
 #border {
@@ -78,6 +75,10 @@ canvas {
   font-weight: bold;
   font-size: 2rem;
   color: #000;
+}
+
+.tooltip {
+  display: none;
 }
 
 .canvas:hover .tooltip {
