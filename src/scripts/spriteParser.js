@@ -116,6 +116,26 @@ export function drawSprite(context, spriteType, sprite) {
     }
 }
 
+/* Draws animation frames for animated sprites */
+export function animateSprite(context, canvasWidth, canvasHeight, currentFrame, spriteType, sprite) {
+
+    context.clearRect(0, 0, canvasWidth, canvasHeight)
+
+    let adjustedIndex = -1
+
+    switch(spriteType) {
+        case "bundle":
+            adjustedIndex = sprite.index * 16 + currentFrame
+            loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32, 0, 0, scaler)
+        break
+        case "reward":
+            adjustedIndex = sprite.index + currentFrame
+            //TODO - load reward bundle sprite
+            //loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32, 0, 0, scaler)
+        break
+    }
+}
+
 /* Loads sprite data from appropriate file and draws it to the canvas once loaded */
 function loadSprite(context, texture, spriteIndex, startX, startY, width, height, rowCount, shiftX, shiftY, scale) {
     let img = new Image() 

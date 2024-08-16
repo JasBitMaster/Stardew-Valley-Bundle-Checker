@@ -1,7 +1,4 @@
 <template absolute>
-  
-  <v-container class="fill-height fill-width">
-    <v-responsive class="align-centerfill-height mx-auto" max-width="960">
 
       <div class="text-center">
         <v-img class="mb-4" height="300" src="@/assets/imgs/logo.png" />
@@ -17,17 +14,16 @@
           <p>Press the scroll to load a save file...</p>
         </div>
       </div>
+    
       <div class="button" @mousemove="drawTooltip" >
-        <v-img class="mb-4" height="96" width="96" id="image" src="@/assets/imgs/Golden_Scroll.png"
+        <v-img height="96" width="96" id="image" src="@/assets/imgs/Golden_Scroll.png"
         @click="clickInput">
         </v-img>
         <span class="tooltip" ref="tooltipSpan" id="border">Test</span>
       </div>
       
       <input @change="loadData" accept="plain/text" type="file" id="file" name="file" hidden/>
-      
-    </v-responsive>
-  </v-container>
+
   
   <AppFooter />
   
@@ -36,8 +32,9 @@
 <script setup>
   import { useRouter } from 'vue-router'
   import { loadFile } from '../scripts/dataParser.js'
-  import { ref } from 'vue'
   import AppFooter from '@/components/AppFooter.vue'
+  import CanvasSprite from './CanvasSprite.vue'
+  import { ref } from 'vue'
 
   const router = useRouter()
   const tooltipSpan = ref(null)
@@ -59,46 +56,46 @@
     let x = event.clientX,
         y = event.clientY
     //Set tooltip position according to mouse position
-    //tooltipSpan.value.style.top = (y - 20) + 'px'
-    //tooltipSpan.value.style.left = (x - 20) + 'px'
+    tooltipSpan.value.style.top = (y - 700) + 'px'
+    tooltipSpan.value.style.left = (x - 600) + 'px'
   }
 </script>
 
 <style scoped>
-#border {
-  border:15px solid transparent;
-  border-image: url(../assets/imgs/menu_border.png) 15 stretch;
-  border-radius: 15px;
-  max-width: fit-content;
-  background-color: #F6B569;
-  background-clip: border-box;
-  padding: 12px;
-  position: relative;
-  margin: auto;
-}
+  #border {
+    border:15px solid transparent;
+    border-image: url(../assets/imgs/menu_border.png) 15 stretch;
+    border-radius: 15px;
+    max-width: fit-content;
+    background-color: #F6B569;
+    background-clip: border-box;
+    padding: 12px;
+    position: relative;
+    margin: auto;
+  }
 
-#image {
-  margin:auto
-}
+  #image {
+    margin:auto
+  }
 
-h1, p {
-  font-family: 'sv-bold';
-  font-size: x-large;
-  text-shadow: black 2px 2px 5px;
-}
+  h1, p {
+    font-family: 'sv-bold';
+    font-size: x-large;
+    text-shadow: black 2px 2px 5px;
+  }
 
-.tooltip {
-  display: none;
-}
+  .tooltip {
+    display: none;
+  }
 
- .button:hover .tooltip {
-  z-index: 10;
-  font-family: 'sv-thin';
-  font-weight: bold;
-  font-size: 2rem;
-  color: #000;
-  display: block;
-  position: fixed;
-  overflow: hidden;
-}
+  .button:hover .tooltip {
+    z-index: 10;
+    font-family: 'sv-thin';
+    font-weight: bold;
+    font-size: 2rem;
+    color: #000;
+    display: block;
+    position: fixed;
+    overflow: hidden;
+  }
 </style>
