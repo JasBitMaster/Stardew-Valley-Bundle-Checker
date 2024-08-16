@@ -53,7 +53,7 @@
     sprites.push(genSprite(2,"Cursors",860,16))
     let scrollSprite = genSprite(0,"Cursors", 0, 556)
     //TODO - overwrite with actual reward
-    scrollSprite.name = props.room.reward
+    scrollSprite.name = "Reward: " + props.room.reward
     sprites.push(scrollSprite)
     //Load bundle textures
     props.room.bundles.forEach((bundle, index) => {

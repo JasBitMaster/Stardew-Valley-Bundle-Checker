@@ -1,8 +1,8 @@
 <template>
   <div class="canvas">
     <canvas :style="{top: sprite.offsetY +'px', left: sprite.offsetX +'px', zIndex:layer}"
-    :width=" width +'px'" :height="height +'px'" ref="myCanvas"
-    @mousemove="drawTooltip" @mouseenter="startAnimate" @mouseleave="endAnimate">
+    :width=" width +'px'" :height="height +'px'" ref="myCanvas" class="canvas"
+    @mousemove="drawTooltip" @mouseleave="mouseExit" @mouseenter="mouseEnter">
     </canvas>
     <span class="tooltip" ref="tooltipSpan" id="border">Test</span>
   </div>
@@ -51,18 +51,33 @@
       let x = event.clientX,
           y = event.clientY
       //Set tooltip position according to mouse position
-      tooltipSpan.value.style.top = (y - 10) + 'px'
-      tooltipSpan.value.style.left = (x - 10) + 'px'
+      tooltipSpan.value.style.top = (y + 10) + 'px'
+      tooltipSpan.value.style.left = (x + 10) + 'px'
       tooltipSpan.value.style.display = 'block'
     } else {
       tooltipSpan.value.style.display = 'none'
     }
   }
+  /* Start animation on enter region */
+  function mouseEnter() {
+    startAnimate()
+  }
+  /* Reset item state on exit region */
+  function mouseExit() {
+    tooltipSpan.value.style.top = 0 + 'px'
+    tooltipSpan.value.style.left = 0 + 'px'
+    tooltipSpan.value.style.display = 'none'
+    if(animateID) {
+      endAnimate()
+    }
+  }
   /* Starts the sprite animating on begin hover */
   function startAnimate() {
+    
     if(props.spriteType == "bundle" || props.spriteType == "reward") {
+      
       if(!animateID) {
-        animateID = setInterval(() => animate, 250)
+        animateID = setInterval(() =>{ animate() }, 100)
       }
     }
   }
@@ -72,13 +87,13 @@
       clearInterval(animateID)
       animateID = null
 
-      context.clearRect(0, 0, props.width, props.height)
+      context.value.clearRect(0, 0, props.width, props.height)
       loadImage()
     }
   }
   /* Animates the object by advancing frame and redrawing */
   function animate() {
-    currentFrame++
+    currentFrame += 1
     if(currentFrame >= 4) {
       currentFrame = 0
     }

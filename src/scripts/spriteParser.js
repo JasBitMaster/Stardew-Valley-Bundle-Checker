@@ -119,13 +119,16 @@ export function drawSprite(context, spriteType, sprite) {
 /* Draws animation frames for animated sprites */
 export function animateSprite(context, canvasWidth, canvasHeight, currentFrame, spriteType, sprite) {
 
-    context.clearRect(0, 0, canvasWidth, canvasHeight)
+    context.value.clearRect(0, 0, canvasWidth, canvasHeight)
 
     let adjustedIndex = -1
-
+    console.log("Test")
     switch(spriteType) {
         case "bundle":
             adjustedIndex = sprite.index * 16 + currentFrame
+            if(currentFrame == 3) {
+                adjustedIndex = sprite.index * 16 + 1
+            }
             loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32, 0, 0, scaler)
         break
         case "reward":

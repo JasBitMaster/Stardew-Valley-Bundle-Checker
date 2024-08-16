@@ -1,5 +1,4 @@
-<template absolute>
-
+<template>
       <div class="text-center">
         <v-img class="mb-4" height="300" src="@/assets/imgs/logo.png" />
         <div id="border">
@@ -15,13 +14,10 @@
         </div>
       </div>
     
-      <div class="button" @mousemove="drawTooltip" >
-        <v-img height="96" width="96" id="image" src="@/assets/imgs/Golden_Scroll.png"
+        <v-img class="button" height="96" width="96" id="image" src="@/assets/imgs/Golden_Scroll.png" @mousemove="drawTooltip" 
         @click="clickInput">
         </v-img>
-        <span class="tooltip" ref="tooltipSpan" id="border">Test</span>
-      </div>
-      
+      <span class="tooltip" ref="tooltipSpan" id="border">Test</span>
       <input @change="loadData" accept="plain/text" type="file" id="file" name="file" hidden/>
 
   
@@ -33,7 +29,6 @@
   import { useRouter } from 'vue-router'
   import { loadFile } from '../scripts/dataParser.js'
   import AppFooter from '@/components/AppFooter.vue'
-  import CanvasSprite from './CanvasSprite.vue'
   import { ref } from 'vue'
 
   const router = useRouter()
@@ -56,8 +51,8 @@
     let x = event.clientX,
         y = event.clientY
     //Set tooltip position according to mouse position
-    tooltipSpan.value.style.top = (y - 700) + 'px'
-    tooltipSpan.value.style.left = (x - 600) + 'px'
+    tooltipSpan.value.style.top = (y - 790) + 'px'
+    tooltipSpan.value.style.left = (x - 670) + 'px'
   }
 </script>
 
@@ -88,7 +83,7 @@
     display: none;
   }
 
-  .button:hover .tooltip {
+  .button:hover + .tooltip {
     z-index: 10;
     font-family: 'sv-thin';
     font-weight: bold;
