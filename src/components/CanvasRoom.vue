@@ -14,6 +14,8 @@
         <CanvasBundle :bundle="bundle" :index="index" @close="exitPress"/>
       </div>
   </template>
+  <!-- Initialize reward -->
+  <CanvasSprite :sprite-type="'reward'" :sprite="sprites[4]" :width="54" :height="60" :layer="2"/>
   <!-- Initialize scroll -->
   <CanvasSprite :sprite-type="'scroll'" :sprite="sprites[3]" :width="960" :height="54" :layer="5"/>
 </template>
@@ -51,8 +53,8 @@
     //Load arrow textures
     sprites.push(genSprite(1,"Cursors",64,16))
     sprites.push(genSprite(2,"Cursors",860,16))
+    //Load room reward textures
     let scrollSprite = genSprite(0,"Cursors", 0, 556)
-    //TODO - overwrite with actual reward
     scrollSprite.name = "Reward: " + props.room.reward
     sprites.push(scrollSprite)
     //Load bundle textures
@@ -61,6 +63,8 @@
         bundleOffsets[index].x, bundleOffsets[index].y)
       bundleSprites.push(newSprite)
     });
+    //Load reward box texture
+    sprites.push(genSprite(0,"JunimoNote",441,360))
   }
   /* Generates a new sprite object based on the provided data */
   function genSprite(spriteIndex, texture, offsetX, offsetY) {

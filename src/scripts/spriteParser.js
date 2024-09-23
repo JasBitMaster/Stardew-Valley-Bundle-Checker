@@ -4,15 +4,17 @@ import Craftables from "../assets/sprites/Craftables.png"
 import Objects from "../assets/sprites/Objects.png"
 import Objects_2 from "../assets/sprites/Objects_2.png"
 import Cursors from "../assets/sprites/Cursors.png"
+import Title from "../assets/imgs/logo.png"
 
 /* Creates image objects to act as spritesheets */
-let junimoNoteImg, bundleSpritesImg, craftablesImg, objectsImg, objectsImg2, cursorsImg
+let junimoNoteImg, bundleSpritesImg, craftablesImg, objectsImg, objectsImg2, cursorsImg, titleImg
 junimoNoteImg = new Image()
 bundleSpritesImg = new Image()
 craftablesImg = new Image()
 objectsImg = new Image()
 objectsImg2 = new Image()
 cursorsImg = new Image()
+titleImg = new Image()
 /* Loads spritesheet textures from files */
 junimoNoteImg.src = JunimoNote
 bundleSpritesImg.src = BundleSprites
@@ -20,6 +22,7 @@ craftablesImg.src = Craftables
 objectsImg.src = Objects
 objectsImg2.src = Objects_2
 cursorsImg.src = Cursors
+titleImg.src = Title
 
 const scaler = 3                // Factor to scale sprites up by
 const tagScaler = 2             // Factor to scale item markers up by
@@ -58,9 +61,18 @@ export function drawSprite(context, spriteType, sprite) {
             context.value.font = "32px sv-bold"
             loadText(context, text, img, (320 * scaler)/2, 10 * scaler)
         break
+        case "title":
+            loadSprite(context, sprite.texture, sprite.index, 0, 0, 800, 400, 1, 0, 0, 1)
+        break
+        case "loader":
+            loadSprite(context, sprite.texture, sprite.index, 331, 374, 15, 14, 1, 0, 0, 6)
+        break
         case "bundle":
             let adjustedIndex = sprite.index * 16 + 1
             loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32, 0, 0, scaler)
+        break
+        case "reward":
+            loadSprite(context, sprite.texture, sprite.index, 548, 262, 18, 20, 4, 0, 0, scaler)
         break
         case "navigation":
             loadSprite(context, sprite.texture, 0, navPos[sprite.index], 494, 12, 12, 1, 0, 0, scaler)
@@ -118,11 +130,10 @@ export function drawSprite(context, spriteType, sprite) {
 
 /* Draws animation frames for animated sprites */
 export function animateSprite(context, canvasWidth, canvasHeight, currentFrame, spriteType, sprite) {
-
+    //Clear texture
     context.value.clearRect(0, 0, canvasWidth, canvasHeight)
-
     let adjustedIndex = -1
-    console.log("Test")
+    //Load next frame
     switch(spriteType) {
         case "bundle":
             adjustedIndex = sprite.index * 16 + currentFrame
@@ -133,8 +144,7 @@ export function animateSprite(context, canvasWidth, canvasHeight, currentFrame, 
         break
         case "reward":
             adjustedIndex = sprite.index + currentFrame
-            //TODO - load reward bundle sprite
-            //loadSprite(context, sprite.texture, adjustedIndex, 0, 244, 16, 16, 32, 0, 0, scaler)
+            loadSprite(context, sprite.texture, adjustedIndex, 548, 262, 18, 20, 4, 0, 0, scaler)
         break
     }
 }
@@ -161,6 +171,9 @@ function loadSprite(context, texture, spriteIndex, startX, startY, width, height
         break
         case "Cursors":
             img = cursorsImg
+        break
+        case "Title":
+            img = titleImg
         break
     }
     //Makes textures pixel perfect
