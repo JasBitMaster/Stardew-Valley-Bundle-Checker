@@ -95,6 +95,8 @@ export function drawSprite(context, spriteType, sprite) {
             loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 32, 8, 0, 0, scaler)
         break
         case "item":
+            //TODO - Draw item shadow
+            
             if(sprite.texture == "Objects_2") {
                 loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 16, 8, 0, 0, scaler)
             } else {

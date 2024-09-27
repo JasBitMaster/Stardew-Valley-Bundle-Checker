@@ -157,11 +157,6 @@
   }
   /* Initializes page for startup */
   onBeforeMount(init)
-
-  /*
-  Animation Code: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations
-  Timeout Timer:  https://developer.mozilla.org/en-US/docs/Web/API/setInterval
-  */
 </script>
 
 <style scoped>

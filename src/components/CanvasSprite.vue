@@ -73,7 +73,6 @@
   }
   /* Starts the sprite animating on begin hover */
   function startAnimate() {
-    
     if(props.spriteType == "bundle" || props.spriteType == "reward") {
       
       if(!animateID) {
@@ -99,7 +98,6 @@
     }
     animateSprite(context, props.width, props.height, currentFrame, props.spriteType, props.sprite)
   }
-
   onMounted(startUp)
 </script>
 
