@@ -8,12 +8,19 @@
     :width="36" :height="36" :layer="4"/>
   <!-- Initialize bundle icon -->
   <CanvasSprite :sprite-type="'bundleIcon'" :sprite="sprites[3]" :width="96" :height="96" :layer="4"/>
+  <!-- Initialize reward -->
+  <CanvasSprite :sprite-type="'reward'" :sprite="sprites[4]" :width="54" :height="60"
+    :layer="4" :name="sprites[4].name" @click="rewardPress"/>
+  <CanvasSprite :sprite-type="'item'" :sprite="sprites[5]" :width="54" :height="54" :layer="4" 
+    :name="bundle.reward.name" v-if="bundle.reward.type == 'Object' && rewardVisible"/>
+  <CanvasSprite :sprite-type="'craftable'" :sprite="sprites[5]" :width="54" :height="96" :layer="4" 
+    :name="bundle.reward.name" v-if="bundle.reward.type == 'Craftable' && rewardVisible"/>
   <!-- Initialize slots -->
   <template v-for="n in bundle.slots">
     <CanvasSprite sprite-type="itemSlot" :sprite="slotSprites[n-1]"
       :width="54" :height="54" :layer="4"/>
   </template>
-  <CanvasSprite :sprite-type="'itemSlot'" :sprite="sprites[4]"
+  <CanvasSprite :sprite-type="'itemSlot'" :sprite="sprites[6]"
     :width="204" :height="60" :layer="4" v-if="bundle.slots <=0"/>
   <!-- Initialize items -->
   <template v-for="(item, index) in bundle.items">
@@ -24,7 +31,7 @@
 
 <script setup>
   import CanvasSprite from '@/components/CanvasSprite.vue'
-  import { onBeforeMount } from 'vue';
+  import { ref, onBeforeMount } from 'vue';
 
   const props = defineProps({
     bundle: {
@@ -40,6 +47,8 @@
   })
   const emit = defineEmits(['close'])
 
+  const rewardVisible = ref(false)   //Reward sprite visibility
+
   const scaler = 3                          // Image scaling rate
   const slotCenterX = (233 - 9) * scaler    // X position used to place center slot
   const slotCenterY = (135 - 9) * scaler    // Y position used to place center slot
@@ -47,9 +56,9 @@
   const slotOffsetY = (9 + 1) * scaler      // Y offset per row of slots
 
   const itemCenterX = (233 - 8) * scaler    // X position used to place item slot
-  const itemCenterY = (92 - 8) * scaler    // Y position used to place center slot
+  const itemCenterY = (92 - 8) * scaler     // Y position used to place center slot
   const itemOffsetX = (8 + 2) * scaler      // X offset per slot
-  const itemOffsetY = 8 * scaler      // Y offset per row of slots
+  const itemOffsetY = 8 * scaler            // Y offset per row of slots
 
   var sprites = []        // Holds currently loaded sprites
   var slotSprites = []    // Holds currently slot sprites
@@ -62,16 +71,29 @@
     bgSprite.name = props.bundle.bundleName
     sprites.push(bgSprite)
     //Load navigation buttons
-    sprites.push(genSprite(1,"Cursors",64,64))
+    sprites.push(genSprite(1,"Cursors",67,64))
     sprites.push(genSprite(0,"Cursors",920,4))
     //Load bundle icon
     sprites.push(genSprite(props.bundle.spriteIndex, props.bundle.texture, 655, 66))
+    //Load reward box texture
+    let scrollSprite = genSprite(0,"JunimoNote",832,96)
+    scrollSprite.name = "Press to reveal\nbundle reward..."
+    sprites.push(scrollSprite)
+    //Load reward item
+    let rewardSprite = genSprite(0,"JunimoNote",524,105)
+    rewardSprite.index =    props.bundle.reward.spriteIndex
+    rewardSprite.texture =  props.bundle.reward.texture
+    rewardSprite.item =     props.bundle.reward
+    if(props.bundle.reward.type == "Craftable") {
+      rewardSprite.offsetY = rewardSprite.offsetY - 32
+    }
+    sprites.push(rewardSprite)
     //Load item slots
     genObjs(slotSprites, props.bundle.slots, slotCenterX, slotCenterY, slotOffsetX, slotOffsetY)
     if(props.bundle.slots <= 0) {
       sprites.push(genSprite(0,"JunimoNote",slotCenterX - 75, slotCenterY - 3))
     }
-    //TODO - load items
+    //Load items
     genObjs(itemSprites, props.bundle.items.length, itemCenterX, itemCenterY, itemOffsetX, itemOffsetY)
     itemSprites.forEach((sprite, index)=> {
       sprite.index = props.bundle.items[index].spriteIndex
@@ -121,7 +143,14 @@
       array.push(genSprite(1,"JunimoNote", positionX[i], positionY[i]))
     }
   }
-
+  /* Shows/hides bundle reward */
+  function rewardPress() {
+    if(rewardVisible.value) {
+      rewardVisible.value = false
+    } else {
+      rewardVisible.value = true
+    }
+  }
   /* Navigates back to previous page */
   function exit() {
     emit('close', props.index)

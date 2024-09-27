@@ -106,21 +106,40 @@ function parseBundle(bundle) {
         bundleTemp.spriteIndex = parseInt(data[7])
     }
     let rewardData = data[3].split(" ")
-    let rewardTemp = {"name":"N/A","description":"N/A","count": 0}
+    let rewardTemp = {"name":"N/A","description":"N/A","count": 0,"spriteIndex":-1,"texture":"Objects"}
     //Generates reward data based on JSON data
     switch(rewardData[0]) {
         case "R":
         case "O":
             rewardTemp.name = parseReference(objects.default[rewardData[1]].DisplayName)
             rewardTemp.description = parseReference(objects.default[rewardData[1]].Description)
+            rewardTemp.spriteIndex = objects.default[rewardData[1]].SpriteIndex
             rewardTemp.count = rewardData[2]
+            rewardTemp.type = "Object"
+            if(objects.default[rewardData[1]].Texture != null) {
+                let tempReward = objects.default[rewardData[1]].Texture
+                tempReward = tempReward.replaceAll("TileSheets\\","")
+                rewardTemp.texture = tempReward
+            } else {
+                rewardTemp.texture = "Objects"
+            }
             break
         case "BO":
             rewardTemp.name = parseReference(bigCraftables.default[rewardData[1]].DisplayName)
             rewardTemp.description = parseReference(bigCraftables.default[rewardData[1]].Description)
+            rewardTemp.spriteIndex = bigCraftables.default[rewardData[1]].SpriteIndex
             rewardTemp.count = rewardData[2]
+            rewardTemp.type = "Craftable"
+            if(bigCraftables.default[rewardData[1]].Texture != null) {
+                let tempReward = bigCraftables.default[rewardData[1]].Texture
+                tempReward = tempReward.replaceAll("TileSheets\\","")
+                rewardTemp.texture = tempReward
+            } else {
+                rewardTemp.texture = "Craftables"
+            }
             break
     }
+
     bundleTemp.reward = rewardTemp
     //Iterates over all items and generates item data based on JSON data
     let itemsData = data[4].split(" ")

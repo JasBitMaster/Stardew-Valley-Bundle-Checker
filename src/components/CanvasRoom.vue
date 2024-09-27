@@ -14,8 +14,6 @@
         <CanvasBundle :bundle="bundle" :index="index" @close="exitPress"/>
       </div>
   </template>
-  <!-- Initialize reward -->
-  <CanvasSprite :sprite-type="'reward'" :sprite="sprites[4]" :width="54" :height="60" :layer="2"/>
   <!-- Initialize scroll -->
   <CanvasSprite :sprite-type="'scroll'" :sprite="sprites[3]" :width="960" :height="54" :layer="5"/>
 </template>
@@ -63,8 +61,6 @@
         bundleOffsets[index].x, bundleOffsets[index].y)
       bundleSprites.push(newSprite)
     });
-    //Load reward box texture
-    sprites.push(genSprite(0,"JunimoNote",441,360))
   }
   /* Generates a new sprite object based on the provided data */
   function genSprite(spriteIndex, texture, offsetX, offsetY) {
@@ -96,7 +92,7 @@
   onBeforeUpdate(init)
   onUpdated(emit("updated"))
 </script>
-
+  
 <style scoped>
-
+  
 </style>
