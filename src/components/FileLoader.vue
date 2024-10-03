@@ -25,9 +25,9 @@
   }
   /* Loads bundle data from save file then stores it and navigates to main page */
   async function loadData(evt) {
-    loadFile(evt).then((rooms) => {
-      console.log("Rooms: " + JSON.stringify(rooms))
-      localStorage.setItem("rooms", JSON.stringify(rooms))
+    loadFile(evt).then((fileData) => {
+      console.log("Rooms: " + JSON.stringify(fileData.rooms))
+      localStorage.setItem("rooms", JSON.stringify(fileData.rooms))
       router.push({name:"bundle"})
     })
   }
