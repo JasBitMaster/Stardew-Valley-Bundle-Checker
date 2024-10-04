@@ -38,7 +38,6 @@ async function parseSave(saveFile) {
 function parseData(textFile) {
     parseBundleData(textFile)
     parseProgress(textFile)
-    parseRewards(textFile)
     let fileData = { "rooms": rooms, "progress": bundleProgress }
     return fileData
 }
@@ -69,10 +68,10 @@ function parseProgress(textFile) {
     bundlesString = bundlesString.replaceAll(/<\/|<|>|value|key|item|boolean|int|ArrayOfBoolean/g,"")
     let bundlesArray = bundlesString.split(".")
     bundlesArray.forEach(parseBundleProgress)
+    //Test print of data on load
+    console.log(bundleProgress)
     return bundleProgress
 }
-
-
 
 /* Parses bundle progress and stores it in bundleProgress[] */
 function parseBundleProgress(bundle) {
@@ -83,22 +82,6 @@ function parseBundleProgress(bundle) {
         bundleState.itemsComplete.push(JSON.parse(item))
     })
     bundleProgress.push(bundleState)
-}
-
-/* Parses bundle reward progress and stores it in bundleProgress[] */
-function parseRewards(textFile) {
-    let rewardData = textFile.split("bundleRewards")
-    let rewardsString = rewardData[1].slice(1,-2)
-    rewardsString = rewardsString.replaceAll(/<\/key>/g,"/")
-    rewardsString = rewardsString.replaceAll(/<\/item><item>/g,".")
-    rewardsString = rewardsString.replaceAll(/<\/|<|>|value|key|item|boolean|int/g,"")
-    let rewardsArray = rewardsString.split(".")
-    rewardsArray.forEach((reward, index) => { 
-        let values = reward.split("/")
-        bundleProgress[index].rewardCollected = JSON.parse(values[1])
-     })
-    //Test print of data on load
-    console.log(bundleProgress)
 }
 
 /* Parses bundle information and stores it in rooms[] */
