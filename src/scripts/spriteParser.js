@@ -5,9 +5,10 @@ import Objects from "../assets/sprites/Objects.png"
 import Objects_2 from "../assets/sprites/Objects_2.png"
 import Cursors from "../assets/sprites/Cursors.png"
 import Title from "../assets/imgs/logo.png"
+import Shadow from "../assets/imgs/shadow.png"
 
 /* Creates image objects to act as spritesheets */
-let junimoNoteImg, bundleSpritesImg, craftablesImg, objectsImg, objectsImg2, cursorsImg, titleImg
+let junimoNoteImg, bundleSpritesImg, craftablesImg, objectsImg, objectsImg2, cursorsImg, titleImg, shadowImg
 junimoNoteImg = new Image()
 bundleSpritesImg = new Image()
 craftablesImg = new Image()
@@ -15,6 +16,7 @@ objectsImg = new Image()
 objectsImg2 = new Image()
 cursorsImg = new Image()
 titleImg = new Image()
+shadowImg = new Image()
 /* Loads spritesheet textures from files */
 junimoNoteImg.src = JunimoNote
 bundleSpritesImg.src = BundleSprites
@@ -23,6 +25,7 @@ objectsImg.src = Objects
 objectsImg2.src = Objects_2
 cursorsImg.src = Cursors
 titleImg.src = Title
+shadowImg.src = Shadow
 
 const scaler = 3                // Factor to scale sprites up by
 const tagScaler = 2             // Factor to scale item markers up by
@@ -95,8 +98,9 @@ export function drawSprite(context, spriteType, sprite) {
             loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 32, 8, 0, 0, scaler)
         break
         case "item":
-            //TODO - Draw item shadow
-            //loadSprite(context, "Shadow", 0, 0, 0, 16, 16, 1, 0, 0, scaler)
+            //Draw item shadow
+            loadSprite(context, "Shadow", 0, 0, 0, 16, 16, 1, 6, 32, scaler)
+            //Draw item itself
             if(sprite.texture == "Objects_2") {
                 loadSprite(context, sprite.texture, sprite.index, 0, 0, 16, 16, 8, 0, 0, scaler)
             } else {
@@ -177,6 +181,9 @@ function loadSprite(context, texture, spriteIndex, startX, startY, width, height
         case "Title":
             img = titleImg
         break
+        case "Shadow":
+            img = shadowImg
+        break
     }
     //Makes textures pixel perfect
     context.value.imageSmoothingEnabled = false
@@ -187,10 +194,20 @@ function loadSprite(context, texture, spriteIndex, startX, startY, width, height
     let sy = height * offsetY + startY
     //Draws sprite to canvas once image has loaded
     if(img.complete) {
+        if(texture == "Shadow") {
+            context.value.globalCompositeOperation = "destination-over"
+        } else {
+            context.value.globalCompositeOperation = "source-over"
+        }
         context.value.drawImage(img, sx, sy, width, height, shiftX, shiftY, width * scale, height * scale)
             console.log("Image Updated...")
     } else {
         img.addEventListener("load", () => {
+            if(texture == "Shadow") {
+                context.value.globalCompositeOperation = "destination-over"
+            } else {
+                context.value.globalCompositeOperation = "source-over"
+            }
             context.value.drawImage(img, sx, sy, width, height, shiftX, shiftY, width * scale, height * scale)
             console.log("Image Loaded...")
         })
