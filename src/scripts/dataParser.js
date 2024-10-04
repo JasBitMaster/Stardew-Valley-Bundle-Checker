@@ -5,6 +5,7 @@ import * as stringsBC from './JSON/BigCraftablesStrings.json'
 import * as strings_1_6 from './JSON/1_6_Strings.json'
 
 let rooms = []
+let bundleProgress = []
 let roomReward = ""
 
 /* Sends the room data */
@@ -27,10 +28,19 @@ async function parseSave(saveFile) {
             reader.readAsText(saveFile)
         }
         reader.addEventListener("load", async function (evt) {
-            resolve(parseBundleData(evt.target.result))
+            //resolve(parseBundleData(evt.target.result))
+            resolve(parseData(evt.target.result))
         }, false)
     })
     return await myPromise
+}
+
+function parseData(textFile) {
+    parseBundleData(textFile)
+    parseProgress(textFile)
+    parseRewards(textFile)
+    let fileData = { "rooms": rooms, "progress": bundleProgress }
+    return fileData
 }
 
 /* Extracts bundle information from save file and iterates over bundles to populate rooms[] */
@@ -46,6 +56,49 @@ function parseBundleData(textFile) {
     //Test print of data on load
     console.log(rooms)
     return rooms
+}
+
+/* Extracts bundle completion info from save file */
+function parseProgress(textFile) {
+    bundleProgress = []
+    let bundleData = textFile.split("bundles")
+    let bundlesString = bundleData[1].slice(1,-2)
+    bundlesString = bundlesString.replaceAll(/<\/key>/g,"/")
+    bundlesString = bundlesString.replaceAll(/<\/boolean><boolean>/g,",")
+    bundlesString = bundlesString.replaceAll(/<\/item><item>/g,".")
+    bundlesString = bundlesString.replaceAll(/<\/|<|>|value|key|item|boolean|int|ArrayOfBoolean/g,"")
+    let bundlesArray = bundlesString.split(".")
+    bundlesArray.forEach(parseBundleProgress)
+    return bundleProgress
+}
+
+
+
+/* Parses bundle progress and stores it in bundleProgress[] */
+function parseBundleProgress(bundle) {
+    let data = bundle.split("/")
+    let bundleState = { "bundleIndex": data[0], "rewardCollected": false, "itemsComplete": [] }
+    let itemsComplete = data[1].split(",")
+    itemsComplete.forEach((item) => {
+        bundleState.itemsComplete.push(JSON.parse(item))
+    })
+    bundleProgress.push(bundleState)
+}
+
+/* Parses bundle reward progress and stores it in bundleProgress[] */
+function parseRewards(textFile) {
+    let rewardData = textFile.split("bundleRewards")
+    let rewardsString = rewardData[1].slice(1,-2)
+    rewardsString = rewardsString.replaceAll(/<\/key>/g,"/")
+    rewardsString = rewardsString.replaceAll(/<\/item><item>/g,".")
+    rewardsString = rewardsString.replaceAll(/<\/|<|>|value|key|item|boolean|int/g,"")
+    let rewardsArray = rewardsString.split(".")
+    rewardsArray.forEach((reward, index) => { 
+        let values = reward.split("/")
+        bundleProgress[index].rewardCollected = JSON.parse(values[1])
+     })
+    //Test print of data on load
+    console.log(bundleProgress)
 }
 
 /* Parses bundle information and stores it in rooms[] */
@@ -85,8 +138,8 @@ function parseBundle(bundle) {
         roomIndex = rooms.length - 1
     }
     //Initializes bundle data
-    let bundleTemp = {"bundleName":data[2], "reward":{}, "items":[],"colorIndex": parseInt(data[5]),
-        "slots": 0, "spriteIndex": 0, "texture":"JunimoNote"}
+    let bundleTemp = {"bundleIndex":data[1], "bundleName":data[2], "reward":{}, "items":[], 
+        "colorIndex": parseInt(data[5]), "slots": 0, "spriteIndex": 0, "texture":"JunimoNote"}
     if(data[6] != "") {
         bundleTemp.slots = parseInt(data[6])
     }
